@@ -1,54 +1,55 @@
 // import environment variables.
-require('dotenv').config()
-const globalError = require('http-errors')
+require("dotenv").config();
+const globalError = require("http-errors");
 
 // import node modules.
-const express = require('express'),
-  cookieParser = require('cookie-parser'),
-  compression = require('compression'),
-  helmet = require('helmet'),
-  morgan = require('morgan'),
-  winston = require('./config/winston.config'),
-  sassMiddleware = require('node-sass-middleware'),
-  path = require('path'),
-  cookieSession = require('cookie-session'),
-  cookieSessionConfig = require('./config/cookieSession.config'),
-  { SINFilter, hasData, checkPublic, sortByLineNumber, checkLangQuery, currencyFilter } = require('./utils')
+const express = require("express"),
+  cookieParser = require("cookie-parser"),
+  compression = require("compression"),
+  helmet = require("helmet"),
+  morgan = require("morgan"),
+  winston = require("./config/winston.config"),
+  sassMiddleware = require("node-sass-middleware"),
+  path = require("path"),
+  cookieSession = require("cookie-session"),
+  cookieSessionConfig = require("./config/cookieSession.config"),
+  { hasData, checkPublic, checkLangQuery } = require("./utils");
 
 // initialize application.
-var app = express()
+var app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, './views'))
-app.set('view engine', 'pug')
+app.set("views", path.join(__dirname, "./views"));
+app.set("view engine", "pug");
 
 // if NODE_ENV does not equal 'test', add a request logger
-process.env.NODE_ENV !== 'test' && app.use(morgan('combined', { stream: winston.stream }))
+process.env.NODE_ENV !== "test" &&
+  app.use(morgan("combined", { stream: winston.stream }));
 
 // general app configuration.
-app.use(express.json())
-app.use(express.urlencoded({ extended: false }))
-app.use(cookieParser(process.env.app_session_secret))
-app.use(require('./config/i18n.config').init)
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser(process.env.app_session_secret));
+app.use(require("./config/i18n.config").init);
 
 // in production: use redis for sessions
 // but this works for now
-app.use(cookieSession(cookieSessionConfig))
+app.use(cookieSession(cookieSessionConfig));
 
 // in production: precompile CSS
 app.use(
   sassMiddleware({
-    src: path.join(__dirname, 'public'),
-    dest: path.join(__dirname, 'public'),
+    src: path.join(__dirname, "public"),
+    dest: path.join(__dirname, "public"),
     debug: false,
     indentedSyntax: false, // look for .scss files, not .sass files
     sourceMap: true,
-    outputStyle: 'compressed',
-  }),
-)
+    outputStyle: "compressed"
+  })
+);
 
 // public assets go here (css, js, etc)
-app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, "public")));
 
 // dnsPrefetchControl controls browser DNS prefetching
 // frameguard to prevent clickjacking
@@ -57,52 +58,47 @@ app.use(express.static(path.join(__dirname, 'public')))
 // ieNoOpen sets X-Download-Options for IE8+
 // noSniff to keep clients from sniffing the MIME type
 // xssFilter adds some small XSS protections
-app.use(helmet())
+app.use(helmet());
 // gzip response body compression.
-app.use(compression())
+app.use(compression());
 
-app.use(checkPublic)
-app.use(checkLangQuery)
+app.use(checkPublic);
+app.use(checkLangQuery);
 
 // Adding values/functions to app.locals means we can access them in our templates
-app.locals.GITHUB_SHA = process.env.GITHUB_SHA || null
-app.locals.SINFilter = SINFilter
-app.locals.hasData = hasData
-app.locals.currencyFilter = currencyFilter
-app.locals.sortByLineNumber = sortByLineNumber
+app.locals.GITHUB_SHA = process.env.GITHUB_SHA || null;
+app.locals.hasData = hasData;
 
 // configure routes
-require('./routes/start/start.controller')(app)
-require('./routes/login/login.controller')(app)
-require('./routes/personal/personal.controller')(app)
-require('./routes/deductions/deductions.controller')(app)
-require('./routes/dependants/dependants.controller')(app)
-require('./routes/partner/partner.controller')(app)
-require('./routes/financial/financial.controller')(app)
-require('./routes/confirmation/confirmation.controller')(app)
-require('./routes/offramp/offramp.controller')(app)
+require("./routes/start/start.controller")(app);
+require("./routes/login/login.controller")(app);
+require("./routes/personal/personal.controller")(app);
+require("./routes/confirmation/confirmation.controller")(app);
+require("./routes/offramp/offramp.controller")(app);
 
 // clear session
-app.get('/clear', (req, res) => {
-  req.session = null
-  res.redirect(302, '/')
-})
+app.get("/clear", (req, res) => {
+  req.session = null;
+  res.redirect(302, "/");
+});
 
 app.use(function(req, res, next) {
-  next(globalError(404))
-})
+  next(globalError(404));
+});
 
 // handle global errors.
 app.use(function(err, req, res) {
-  res.locals.message = err.message
-  res.locals.error = req.app.get('env') === 'development' ? err : {}
+  res.locals.message = err.message;
+  res.locals.error = req.app.get("env") === "development" ? err : {};
 
-  winston.debug(`Service error: ${err}`)
+  winston.debug(`Service error: ${err}`);
   winston.error(
-    `${err.status || 500} - ${err.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`,
-  )
+    `${err.status || 500} - ${err.message} - ${req.originalUrl} - ${
+      req.method
+    } - ${req.ip}`
+  );
 
-  res.status(err.status || 500).json({ message: 'Internal service error.' })
-})
+  res.status(err.status || 500).json({ message: "Internal service error." });
+});
 
-module.exports = app
+module.exports = app;

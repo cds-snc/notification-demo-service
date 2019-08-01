@@ -1,5 +1,5 @@
-const API = require('./../api')
-const { validationResult } = require('express-validator')
+const API = require("./../api");
+const { validationResult } = require("express-validator");
 
 /*
   original format is an array of error objects: https://express-validator.github.io/docs/validation-result-api.html
@@ -17,13 +17,13 @@ const { validationResult } = require('express-validator')
 */
 const errorArray2ErrorObject = (errors = []) => {
   return errors.array({ onlyFirstError: true }).reduce((map, obj) => {
-    map[obj.param] = obj
-    return map
-  }, {})
-}
+    map[obj.param] = obj;
+    return map;
+  }, {});
+};
 
 /* Middleware */
-const oneHour = 1000 * 60 * 60 * 1
+const oneHour = 1000 * 60 * 60 * 1;
 
 /**
  * This request middleware checks for the "lang" query.
@@ -32,14 +32,18 @@ const oneHour = 1000 * 60 * 60 * 1
  * From this point onwards, all of the site's content will be in the user's preferred language.
  */
 const checkLangQuery = function(req, res, next) {
-  let lang = req.query.lang
+  let lang = req.query.lang;
 
-  if (lang === 'en' || lang === 'fr') {
-    res.cookie('lang', lang, { httpOnly: true, maxAge: oneHour, sameSite: 'strict' })
+  if (lang === "en" || lang === "fr") {
+    res.cookie("lang", lang, {
+      httpOnly: true,
+      maxAge: oneHour,
+      sameSite: "strict"
+    });
   }
 
-  return next()
-}
+  return next();
+};
 
 /**
  * This request middleware checks if we are visiting a public path
@@ -51,19 +55,19 @@ const checkLangQuery = function(req, res, next) {
  * that a user session exists whatever page you end up on.
  */
 const checkPublic = function(req, res, next) {
-  const publicPaths = ['/', '/clear', '/start', '/login/code']
+  const publicPaths = ["/", "/clear", "/start", "/login/code"];
   if (publicPaths.includes(req.path)) {
-    return next()
+    return next();
   }
 
   // check if user exists in session (ie, by checking for firstName)
-  const { personal: { firstName = null } = {} } = req.session
+  const { personal: { firstName = null } = {} } = req.session;
   if (!firstName) {
-    req.session = API.getUser('A5G98S4K1')
+    req.session = API.getUser("A5G98S4K1");
   }
 
-  return next()
-}
+  return next();
+};
 
 /**
  * This request middleware is used to add an "auth" step to some of our pages
@@ -82,18 +86,18 @@ const checkPublic = function(req, res, next) {
  */
 const doAuth = function(req, res, next) {
   // if running tests, do nothing
-  if (process.env.NODE_ENV === 'test') {
-    return next()
+  if (process.env.NODE_ENV === "test") {
+    return next();
   }
 
   // go to original url if "auth" is truthy
-  const { login: { auth = null } = {} } = req.session
+  const { login: { auth = null } = {} } = req.session;
   if (auth) {
-    return next()
+    return next();
   }
 
-  return res.redirect(`/login/auth?redirect=${encodeURIComponent(req.path)}`)
-}
+  return res.redirect(`/login/auth?redirect=${encodeURIComponent(req.path)}`);
+};
 
 /**
  * Middleware function that runs our error validation
@@ -115,51 +119,36 @@ const doAuth = function(req, res, next) {
  */
 const checkErrors = template => {
   return (req, res, next) => {
-    const errors = validationResult(req)
+    const errors = validationResult(req);
 
     // copy all posted parameters, but remove the redirect
-    let body = Object.assign({}, req.body)
-    delete body.redirect
+    let body = Object.assign({}, req.body);
+    delete body.redirect;
 
     if (!errors.isEmpty()) {
       return res.status(422).render(template, {
         data: req.session,
         body,
-        errors: errorArray2ErrorObject(errors),
-      })
+        errors: errorArray2ErrorObject(errors)
+      });
     }
 
-    return next()
-  }
-}
+    return next();
+  };
+};
 
 //POST functions that handle setting the login data in the session and handle redirecting to the next page or sending an error to the client.
 //Note that this is not the only error validation, see routes defined above.
 const validateRedirect = (req, res, next) => {
-  let redirect = req.body.redirect || null
+  let redirect = req.body.redirect || null;
 
   if (!redirect) {
-    throw new Error(`[POST ${req.path}] 'redirect' parameter missing`)
+    throw new Error(`[POST ${req.path}] 'redirect' parameter missing`);
   }
-  return next()
-}
+  return next();
+};
 
 /* Pug filters */
-/**
- * Accepts a string (assumed to be a SIN)
- * If it is 9 characters long 9, this function returns a string with
- * a space inserted after the 3rd character and the 6th character
- *
- * ie, "847339283" => "847 339 283"
- *
- * @param string text a 9-character string assumed to be a social insurance number
- */
-const SINFilter = text => {
-  if (text.length === 9) {
-    text = text.slice(0, 3) + ' ' + text.slice(3, 6) + ' ' + text.slice(6)
-  }
-  return text
-}
 
 /**
  * @param {Object} obj the obj we're passing, most often 'data'
@@ -168,55 +157,27 @@ const SINFilter = text => {
  * pass as hasData(data, 'personal.maritalStatus')
  */
 const hasData = (obj, key) => {
-  return key.split('.').every(x => {
+  return key.split(".").every(x => {
     if (
-      typeof obj != 'object' ||
+      typeof obj != "object" ||
       obj === null ||
       !obj.hasOwnProperty(x) || // eslint-disable-line no-prototype-builtins
       obj[x] === null ||
-      obj[x] === ''
+      obj[x] === ""
     ) {
-      return false
+      return false;
     }
-    obj = obj[x]
-    return true
-  })
-}
-
-const currencyFilter = (number, fractionDigits = 2) => {
-  const amount = Number(number)
-
-  return amount.toLocaleString('en-US', {
-    minimumFractionDigits: fractionDigits,
-    maximumFractionDigits: fractionDigits,
-  })
-}
-
-const sortByLineNumber = (...objToSort) => {
-  //take all the objects, make them into one big object
-  const superObj = Object.assign({}, ...objToSort)
-
-  //filter down the object into an array of objects, 
-  //but only the objects with the line property
-  const filteredObj = Object.entries(superObj).filter(obj => {
-    return typeof obj[1] === 'object' && obj[1] !== null && obj[1] !== undefined && obj[1].hasOwnProperty('line')
-  })
-
-  //sort the array of objects according to the line value 
-  const sortedArrayObj = filteredObj.map(obj => obj[1]).sort((a,b) => a.line - b.line)
-
-  return sortedArrayObj
-}
+    obj = obj[x];
+    return true;
+  });
+};
 
 module.exports = {
   errorArray2ErrorObject,
   validateRedirect,
   checkErrors,
   doAuth,
-  SINFilter,
   hasData,
   checkPublic,
-  currencyFilter,
-  sortByLineNumber,
-  checkLangQuery,
-}
+  checkLangQuery
+};
