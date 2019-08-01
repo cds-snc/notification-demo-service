@@ -1,0 +1,27 @@
+extends ../base
+
+block variables
+  -var title = __('Enter your date of birth')
+  -var dateOfBirth = hasData(body, 'dateOfBirth') ? body.dateOfBirth : ''
+
+block content
+
+  h1 #{title}
+
+  div
+    p #{__('Thanks!')} #{__('We just need one more piece of information to authenticate you.')}
+
+    p #{__('Please enter your date of birth in the field below.')}
+
+  div
+    form.cra-form(method='post')
+      div(class={['has-error']: errors && errors.dateOfBirth})
+        label(for='dateOfBirth') #{__('Date of Birth')}
+        span.cra-form-message #{__('For Example:')} #{data.personal.dateOfBirth}
+        if errors
+          +validationMessage(errors.dateOfBirth.msg, 'dateOfBirth')
+        input.w-3-4#dateOfBirth(name='dateOfBirth', autofocus, type='text', value=dateOfBirth, autocomplete='off' aria-describedby=(errors && errors.dateOfBirth ? 'dateOfBirth-error' : false))
+
+      input#redirect(name='redirect', type='hidden', value='/personal/name')
+
+      +formButtons()

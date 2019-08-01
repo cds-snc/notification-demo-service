@@ -1,0 +1,31 @@
+extends ../base
+include ../_includes/yesNoRadios
+
+block variables
+  -var title = __('Confirm your name')
+
+block content
+
+  h1 #{title}
+
+  div
+    p #{__('We’ve located your file for the current tax year, 2018.')}
+    p #{__('The first step to filing your taxes and getting your benefits is making sure your address and other personal information is up to date.')}
+    p #{__('Please confirm this is still your current name.')}
+
+  div
+    table.pure-table
+      thead
+        tr
+          th #{__('Full name')}
+      tbody
+        tr
+          td
+            div #{data.personal.firstName} #{data.personal.lastName}
+  
+  form.cra-form(method='post')
+    +yesNoRadios('name', null, 'Is this your name?', errors)
+
+    input#redirect(name='redirect', type='hidden', value='/personal/residence')
+
+    +formButtons()
