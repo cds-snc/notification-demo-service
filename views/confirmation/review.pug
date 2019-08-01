@@ -11,8 +11,7 @@ block content
   h1 #{title}
 
   div
-    p #{__('This is an overview of your projected tax return, and all the benefits you will receive when you file for the current tax year.')}
-    p #{__('Take one final look before continuing. If something looks incorrect, please')} #[a(href="https://www.canada.ca/en/revenue-agency/corporate/contact-information/telephone-numbers.html") #{__('contact CRA')}] #{__('before filing.')}
+    p #{__('Take one final look before continuing')}
 
   form.cra-form(method='post')
     div(class={['has-error']: errors && errors.review})
