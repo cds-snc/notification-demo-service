@@ -62,10 +62,6 @@ const loginSchema = {
       options: value => {
         return value ? value.toUpperCase() : value;
       }
-    },
-    isIn: {
-      options: [API.getMatches()],
-      errorMessage: "errors.login.code"
     }
   }
 };

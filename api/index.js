@@ -1,22 +1,36 @@
-const user = require('./user.json')
+const users = require("./users.json");
 
-var API = (function(user) {
-  const _user = user
-
-  const getUser = code => {
+const findUser = (users, code) => {
+  const result = users.filter(user => {
     if (code === user.login.code) {
-      return _user
+      return true;
     }
+  });
 
-    return null
+  if (result.length >= 1) {
+    return result[0];
   }
+};
 
-  const getMatches = () => [_user.login.code]
+var API = (function(users) {
+  const getUser = code => {
+    console.log("==== code === ");
+    console.log(code);
+    const _user = findUser(users, code);
+    console.log("==== found === ");
+    console.log(_user);
+
+    if (_user) return _user;
+
+    return null;
+  };
+
+  const getMatches = () => [];
 
   return {
     getUser,
-    getMatches,
-  }
-})(user)
+    getMatches
+  };
+})(users);
 
-module.exports = API
+module.exports = API;
