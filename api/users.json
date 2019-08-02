@@ -82,5 +82,47 @@
     "confirmCode": {
       "code": "5H3P9IO5816"
     }
+  },
+  {
+    "login": {
+      "code": "S5G98S4K1",
+      "auth": false
+    },
+    "personal": {
+      "firstName": "Paul",
+      "lastName": "Craig",
+      "email": "name@example.com"
+    },
+    "confirmCode": {
+      "code": "5H3P9IO5816"
+    }
+  },
+  {
+    "login": {
+      "code": "Z5G98S4K1",
+      "auth": false
+    },
+    "personal": {
+      "firstName": "Damien",
+      "lastName": "Trudel",
+      "email": "name@example.com"
+    },
+    "confirmCode": {
+      "code": "5H3P9IO5816"
+    }
+  },
+  {
+    "login": {
+      "code": "X5G98S4K1",
+      "auth": false
+    },
+    "personal": {
+      "firstName": "Mario",
+      "lastName": "Garneau",
+      "email": "name@example.com"
+    },
+    "confirmCode": {
+      "code": "5H3P9IO5816"
+    }
   }
 ]
