@@ -39,5 +39,7 @@ const postName = (req, res) => {
 };
 
 const postEmail = (req, res) => {
+  const email = req.body.email;
+  req.session.personal.email = email;
   return res.redirect(req.body.redirect);
 };

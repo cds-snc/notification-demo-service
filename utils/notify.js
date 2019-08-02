@@ -2,7 +2,6 @@ const winston = require("../config/winston.config");
 const NotifyClient = require("notifications-node-client").NotifyClient;
 const sendNotification = (req, res, next) => {
   const data = req.session;
-
   const templateId = process.env.TEMPLATE_ID;
   const key = process.env.API_KEY;
   const baseUrl = process.env.API_BASE_URL;
