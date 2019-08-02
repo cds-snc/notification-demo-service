@@ -1,6 +1,6 @@
 const { checkSchema } = require("express-validator");
 const { validateRedirect, checkErrors } = require("./../../utils");
-const { nameSchema } = require("./../../formSchemas.js");
+const { nameSchema, emailSchema } = require("./../../formSchemas.js");
 
 module.exports = function(app) {
   app.get("/personal/name", (req, res) =>
@@ -13,6 +13,19 @@ module.exports = function(app) {
     checkErrors("personal/name"),
     postName
   );
+
+  // email
+  app.get("/personal/email", (req, res) =>
+    res.render("personal/email", { data: req.session })
+  );
+
+  app.post(
+    "/personal/email",
+    validateRedirect,
+    checkSchema(emailSchema),
+    checkErrors("personal/email"),
+    postEmail
+  );
 };
 
 const postName = (req, res) => {
@@ -22,5 +35,9 @@ const postName = (req, res) => {
     return res.redirect("/offramp/name");
   }
 
+  return res.redirect(req.body.redirect);
+};
+
+const postEmail = (req, res) => {
   return res.redirect(req.body.redirect);
 };

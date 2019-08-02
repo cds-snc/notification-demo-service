@@ -2,7 +2,7 @@ extends ../base
 include ../_includes/yesNoRadios
 
 block variables
-  -var title = __('Review and file tax return')
+  -var title = __('Review')
   -var count = 1;
 
 
@@ -13,6 +13,19 @@ block content
   div
     p #{__('Take one final look before continuing')}
 
+  div
+    table.pure-table
+      thead
+        tr
+          th #{__('Full name')}
+          th #{__('Email')}
+      tbody
+        tr
+          td
+            div #{data.personal.firstName} #{data.personal.lastName}
+          td
+            div #{data.personal.email} 
+
   form.cra-form(method='post')
     div(class={['has-error']: errors && errors.review})
       .multiple-choice.multiple-choice--checkboxes
@@ -20,8 +33,8 @@ block content
           +validationMessage(errors.review.msg, key)
         .multiple-choice__item
           input(id='review' name='review' type="checkbox" value="review" checked=(value =='review') aria-describedby=(errors ? `review-error` : false))
-          label(for='review') #{__('I confirm that, as far as I know, all the information in this tax return is accurate')}
+          label(for='review') #{__('I confirm that, as far as I know, all the information is accurate')}
 
     input#redirect(name='redirect', type='hidden', value='/confirmation')
 
-    +formButtons('Submit my return')
+    +formButtons('Submit')

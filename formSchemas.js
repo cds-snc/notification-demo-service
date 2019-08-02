@@ -1,13 +1,13 @@
 const API = require("./api");
 
-const currencySchema = (errorMessageString = 'errors.currency') => {
+const currencySchema = (errorMessageString = "errors.currency") => {
   return {
     isCurrency: {
       errorMessage: errorMessageString,
-      options: { allow_negatives: false },
-    },
-  }
-}
+      options: { allow_negatives: false }
+    }
+  };
+};
 
 const yesNoSchema = (errorMessageString = "errors.yesNo") => {
   return {
@@ -70,6 +70,14 @@ const loginSchema = {
   }
 };
 
+const emailSchema = {
+  email: {
+    isLength: {
+      errorMessage: "errors.login.length",
+      options: { min: 3, max: 200 }
+    }
+  }
+};
 
 const nameSchema = {
   name: yesNoSchema()
@@ -85,10 +93,11 @@ const reviewSchema = {
 };
 
 const authSchema = {
-  auth: currencySchema(),
-}
+  auth: currencySchema()
+};
 
 module.exports = {
+  emailSchema,
   loginSchema,
   currencySchema,
   reviewSchema,
