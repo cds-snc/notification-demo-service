@@ -38,9 +38,6 @@ const postLoginCode = (req, res) => {
     });
   }
 
-  console.log("================================");
-  console.log(req.body.code);
-  console.log("================================");
   let user = API.getUser(req.body.code || null);
 
   if (!user) {

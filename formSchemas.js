@@ -1,5 +1,5 @@
 const API = require("./api");
-
+const isValidDate = require("./utils/").isValidDate;
 const currencySchema = (errorMessageString = "errors.currency") => {
   return {
     isCurrency: {
@@ -89,9 +89,17 @@ const nameSchema = {
     }
   },
   expiry: {
-    isLength: {
-      errorMessage: "errors.expiry.length",
-      options: { min: 3, max: 200 }
+    customSanitizer: {
+      options: value => {
+        //We want to remove any spaces, dash or underscores
+        return value ? value.replace(/[_]*/g, "") : value;
+      }
+    },
+    custom: {
+      options: (value, { req }) => {
+        return isValidDate(value);
+      },
+      errorMessage: "errors.expiry.date"
     }
   },
   confirm: yesNoSchema()

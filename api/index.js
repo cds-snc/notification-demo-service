@@ -14,11 +14,7 @@ const findUser = (users, code) => {
 
 var API = (function(users) {
   const getUser = code => {
-    console.log("==== code === ");
-    console.log(code);
     const _user = findUser(users, code);
-    console.log("==== found === ");
-    console.log(_user);
 
     if (_user) return _user;
 

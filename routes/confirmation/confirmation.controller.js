@@ -13,7 +13,6 @@ module.exports = function(app) {
 
   // Might make more sense to put this somewhere else?
   app.get("/review", (req, res) => {
-    console.log("req", req.session);
     res.render("confirmation/review", { data: req.session });
   });
 

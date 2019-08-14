@@ -8,6 +8,7 @@ module.exports = function(app) {
   });
   app.post(
     "/personal/name",
+
     validateRedirect,
     checkSchema(nameSchema),
     checkErrors("personal/name"),

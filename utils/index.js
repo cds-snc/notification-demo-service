@@ -27,6 +27,19 @@ const errorArray2ErrorObject = (errors = []) => {
 /* Middleware */
 const oneHour = 1000 * 60 * 60 * 1;
 
+const isValidDate = dateString => {
+  const regEx = /^\d{4}-\d{2}$/; // YYYY-MM
+  if (!dateString.match(regEx)) {
+    return false; // Invalid format
+  }
+
+  var d = new Date(`${dateString}-01`);
+  var dNum = d.getTime();
+
+  if (!dNum && dNum !== 0) return false; // NaN value, Invalid date
+  return d.toISOString().slice(0, 7) === dateString;
+};
+
 /**
  * This request middleware checks for the "lang" query.
  * If it finds a query parameter "lang=fr" or "lang=en", it will set a "lang" cookie to whichever value.
@@ -115,7 +128,6 @@ const doAuth = function(req, res, next) {
  */
 const checkErrors = template => {
   return (req, res, next) => {
-    console.log("session", req.session);
     winston.debug(JSON.stringify(req.session));
     const errors = validationResult(req);
 
@@ -179,5 +191,6 @@ module.exports = {
   doAuth,
   hasData,
   checkPublic,
-  checkLangQuery
+  checkLangQuery,
+  isValidDate
 };

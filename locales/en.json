@@ -320,5 +320,6 @@
   "errors.fullname.length": "Please enter a valid Full name",
   "errors.email.length": "Please enter a valid Email",
   "errors.expiry.length": "Please enter a valid Expiry date",
-  "YYYY-MM": "YYYY-MM"
+  "YYYY-MM": "YYYY-MM",
+  "errors.expiry.date": "errors.expiry.date"
 }
