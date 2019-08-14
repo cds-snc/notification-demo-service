@@ -316,5 +316,9 @@
   "Enter the Email address you wish to receive reminders with": "Enter the Email address you wish to receive reminders with",
   "Passport expiry date": "Passport expiry date",
   "YYY-MM": "YYY-MM",
-  "Email address": "Email address"
+  "Email address": "Email address",
+  "errors.fullname.length": "Please enter a valid Full name",
+  "errors.email.length": "Please enter a valid Email",
+  "errors.expiry.length": "Please enter a valid Expiry date",
+  "YYYY-MM": "YYYY-MM"
 }

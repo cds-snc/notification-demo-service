@@ -69,13 +69,31 @@ const loginSchema = {
 const emailSchema = {
   email: {
     isLength: {
-      errorMessage: "errors.login.length",
+      errorMessage: "errors.email.length",
       options: { min: 3, max: 200 }
     }
   }
 };
 
 const nameSchema = {
+  fullname: {
+    isLength: {
+      errorMessage: "errors.fullname.length",
+      options: { min: 3, max: 200 }
+    }
+  },
+  email: {
+    isLength: {
+      errorMessage: "errors.email.length",
+      options: { min: 3, max: 200 }
+    }
+  },
+  expiry: {
+    isLength: {
+      errorMessage: "errors.expiry.length",
+      options: { min: 3, max: 200 }
+    }
+  },
   name: yesNoSchema()
 };
 
