@@ -3,16 +3,17 @@ include ../_includes/banner
 
 block content
 
-  h1 #{__('Notification Demo Service')}
+  h1 #{__('Passport Renewal Notification Demo')}
 
   +banner('blue')
-    p #{__('Keep your notification letter with you. You need information on that letter to use this service.')}
+    p #{__('This is a demo of what a Passport renewal reminder system could look like.')}
 
   div
-    p #{__('Welcome to the')} <strong>#{__('Notification demo service')}</strong> #{__('service')}.
+    p #{__('Welcome to the')} <strong>#{__('Passport Renewal Notification Demo')}</strong> #{__('service')}.
     ul
-      li #{__('Morbi aliquam pellentesque urna, in dictum')}
-      li #{__('Pellentesque ultricies ipsum lorem')}
+      li #{__('This demo is maintaned by')} 
+       a(href='https://digital.canada.ca') CDS
+      li #{__('This will not actually alert you to your passport expiry at this time')}
 
   div
     a.button-link(href='/login/code' role='button' draggable='false') #{__('Start now')} <span aria-hidden="true">→</span>
