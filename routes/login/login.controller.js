@@ -23,15 +23,6 @@ module.exports = function(app) {
     checkSchema(loginSchema),
     postLoginCode
   );
-
-  // Auth page
-  app.get("/login/auth", getAuth);
-  app.post(
-    "/login/auth",
-    checkSchema(authSchema),
-    checkErrors("login/auth"),
-    postAuth
-  );
 };
 
 const postLoginCode = (req, res) => {

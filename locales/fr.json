@@ -274,5 +274,10 @@
   "Welcome to the": "Welcome to the",
   "Notification demo service": "Notification demo service",
   "Morbi aliquam pellentesque urna, in dictum": "Morbi aliquam pellentesque urna, in dictum",
-  "Pellentesque ultricies ipsum lorem": "Pellentesque ultricies ipsum lorem"
+  "Pellentesque ultricies ipsum lorem": "Pellentesque ultricies ipsum lorem",
+  "Notification prototype by the Canadian Digital Service": "Notification prototype by the Canadian Digital Service",
+  "Passport Renewal Notification Demo": "Passport Renewal Notification Demo",
+  "This is a demo of what a Passport renewal reminder system could look like.": "This is a demo of what a Passport renewal reminder system could look like.",
+  "This demo is maintaned by": "This demo is maintaned by",
+  "This will not actually alert you to your passport expiry at this time": "This will not actually alert you to your passport expiry at this time"
 }

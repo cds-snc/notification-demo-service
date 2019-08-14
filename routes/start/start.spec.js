@@ -1,6 +1,7 @@
 const request = require('supertest')
 const cheerio = require('cheerio')
 const app = require('../../app.js')
+const appTitle = "Passport Renewal Notification Demo"
 
 describe('Test server responses', () => {
   test('it redirects to /start for the root path', async () => {
@@ -27,7 +28,7 @@ describe('Test server responses', () => {
         .set('Accept-Language', 'en')
 
       const $ = cheerio.load(response.text)
-      expect($('h1').text()).toEqual('Notification Demo Service')
+      expect($('h1').text()).toEqual(appTitle)
       expect($('html').attr('lang')).toEqual('en')
     })
 
@@ -35,7 +36,7 @@ describe('Test server responses', () => {
       const response = await request(app).get('/start?lang=en')
 
       const $ = cheerio.load(response.text)
-      expect($('h1').text()).toEqual('Notification Demo Service')
+      expect($('h1').text()).toEqual(appTitle)
       expect($('html').attr('lang')).toEqual('en')
     })
 
@@ -43,7 +44,7 @@ describe('Test server responses', () => {
       const response = await request(app).get('/start?lang=pt')
 
       const $ = cheerio.load(response.text)
-      expect($('h1').text()).toEqual('Notification Demo Service')
+      expect($('h1').text()).toEqual(appTitle)
       expect($('html').attr('lang')).toEqual('en')
     })
 
@@ -53,7 +54,7 @@ describe('Test server responses', () => {
         .set('Accept-Language', 'fr-CA, fr;q=0.9, en;q=0.8')
 
       const $ = cheerio.load(response.text)
-      expect($('h1').text()).toEqual('Notification Demo Service')
+      expect($('h1').text()).toEqual(appTitle)
       expect($('html').attr('lang')).toEqual('fr')
     })
 
@@ -61,7 +62,7 @@ describe('Test server responses', () => {
       const response = await request(app).get('/start?lang=fr')
 
       const $ = cheerio.load(response.text)
-      expect($('h1').text()).toEqual('Notification Demo Service')
+      expect($('h1').text()).toEqual(appTitle)
       expect($('html').attr('lang')).toEqual('fr')
     })
   })

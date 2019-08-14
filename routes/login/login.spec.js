@@ -21,7 +21,7 @@ describe("Test /login responses", () => {
     const response = await request(app).get("/login/code");
 
     const $ = cheerio.load(response.text);
-    expect($("h1").text()).toEqual("Enter your personal access code");
+    expect($("h1").text()).toEqual("Enter your Passport number");
   });
 
   test("it returns a 500 response if no redirect is provided", async () => {
@@ -142,63 +142,4 @@ describe("Test /login responses", () => {
     });
   });
 
-  describe("Test /login/auth responses", () => {
-    test('it returns a 302 response to the start page when no "redirect" query parameter', async () => {
-      const response = await request(app).get("/login/auth");
-      expect(response.statusCode).toBe(302);
-      expect(response.headers.location).toEqual("/start");
-    });
-
-    test('it returns a 200 response when containing a "redirect" query parameter', async () => {
-      const response = await request(app).get("/login/auth?redirect=%2Furl");
-      expect(response.statusCode).toBe(200);
-    });
-
-    test("it returns a 422 response for no posted value", async () => {
-      const response = await request(app).post("/login/auth");
-      expect(response.statusCode).toBe(422);
-    });
-
-    const badAuths = ["", null, "dinosaur", "10.0", "10.000", "-10", ".1"];
-    badAuths.map(auth => {
-      test(`it returns a 422 for a bad posted value: "${auth}"`, async () => {
-        const response = await request(app)
-          .post("/login/auth")
-          .send({ auth });
-        expect(response.statusCode).toBe(422);
-      });
-    });
-
-    const goodAuths = ["0", "10", "10.00", ".10"];
-    goodAuths.map(auth => {
-      test(`it returns a 302 for a good posted value: "${auth}"`, async () => {
-        const response = await request(app)
-          .post("/login/auth?redirect=%2Furl")
-          .send({ auth });
-        expect(response.statusCode).toBe(302);
-        expect(response.headers.location).toEqual("/url");
-      });
-    });
-
-    test('it returns a 302 response to the start page when posting a good value but no "redirect" query parameter', async () => {
-      const response = await request(app)
-        .post("/login/auth")
-        .send({ auth: "10.00" });
-      expect(response.statusCode).toBe(302);
-      expect(response.headers.location).toEqual("/start");
-    });
-
-    const badRedirects = ["https%3A%2F%2Fevilcompany.com", "evilcompany.com"];
-    badRedirects.map(redirect => {
-      test(`it throws a 500 error for a non-relative "redirect" query parameter link: "${redirect}"`, async () => {
-        const response = await request(app)
-          .post(`/login/auth?redirect=${redirect}`)
-          .send({ auth: "10.00" });
-        expect(response.statusCode).toBe(500);
-        expect(response.text).toMatch(
-          "Error: [POST /login/auth] can only redirect to relative URLs"
-        );
-      });
-    });
-  });
 });
