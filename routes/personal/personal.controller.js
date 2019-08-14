@@ -3,9 +3,9 @@ const { validateRedirect, checkErrors } = require("./../../utils");
 const { nameSchema } = require("./../../formSchemas.js");
 
 module.exports = function(app) {
-  app.get("/personal/name", (req, res) =>
-    res.render("personal/name", { data: req.session })
-  );
+  app.get("/personal/name", (req, res) => {
+    res.render("personal/name", { data: req.session });
+  });
   app.post(
     "/personal/name",
     validateRedirect,

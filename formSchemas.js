@@ -94,7 +94,7 @@ const nameSchema = {
       options: { min: 3, max: 200 }
     }
   },
-  name: yesNoSchema()
+  confirm: yesNoSchema()
 };
 
 const reviewSchema = {

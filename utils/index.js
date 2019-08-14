@@ -1,6 +1,7 @@
 const API = require("./../api");
 const { validationResult } = require("express-validator");
 const { sendNotification } = require("./notify");
+const winston = require("../config/winston.config");
 
 /*
   original format is an array of error objects: https://express-validator.github.io/docs/validation-result-api.html
@@ -61,12 +62,6 @@ const checkPublic = function(req, res, next) {
     return next();
   }
 
-  // check if user exists in session (ie, by checking for firstName)
-  const { personal: { firstName = null } = {} } = req.session;
-  if (!firstName) {
-    req.session = API.getUser("A5G98S4K1");
-  }
-
   return next();
 };
 
@@ -120,11 +115,14 @@ const doAuth = function(req, res, next) {
  */
 const checkErrors = template => {
   return (req, res, next) => {
+    console.log("session", req.session);
+    winston.debug(JSON.stringify(req.session));
     const errors = validationResult(req);
 
     // copy all posted parameters, but remove the redirect
     let body = Object.assign({}, req.body);
     delete body.redirect;
+    req.session = { ...req.session, ...body };
 
     if (!errors.isEmpty()) {
       return res.status(422).render(template, {
