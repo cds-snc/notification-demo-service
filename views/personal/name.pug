@@ -2,27 +2,24 @@ extends ../base
 include ../_includes/yesNoRadios
 
 block variables
-  -var title = __('Confirm your name')
+  -var title = __('Confirm your identity')
 
 block content
 
   h1 #{title}
 
   div
-    p #{__('Please confirm this is still your current name.')}
-
-  div
-    table.pure-table
-      thead
-        tr
-          th #{__('Full name')}
-      tbody
-        tr
-          td
-            div #{data.personal.firstName} #{data.personal.lastName}
+    p #{__('Please confirm your identity so we can verify who you are.')}
   
   form.cra-form(method='post')
-    +yesNoRadios('name', null, 'Is this your name?', errors)
+
+    +textInput('Full name', null, 'Enter your name as it appears on your passport')(class='w-3-4', id='fullname' name='fullname', autofocus, value=data.email)
+
+    +textInput('Email address', null, 'Enter the Email address you wish to receive reminders with')(class='w-3-4', id='email' name='email', autofocus, value=data.email)
+
+    +textInput('Passport expiry date', null, 'YYY-MM')(class='w-3-4', id='expiry' name='expiry', autofocus, value=data.email)
+
+    +yesNoRadios('name', null, 'Do you wish to receive notifications regarding your passport expiry?', errors)
 
     input#redirect(name='redirect', type='hidden', value='/personal/email')
 

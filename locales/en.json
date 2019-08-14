@@ -308,5 +308,13 @@
   "Your passport number can be found on your passport.": "Your passport number can be found on your passport.",
   "Passport number": "Passport number",
   "Help with passport number": "Help with passport number",
-  "Feel free to use the Example number instead of your own passport number.": "Feel free to use the Example number instead of your own passport number."
+  "Feel free to use the Example number instead of your own passport number.": "Feel free to use the Example number instead of your own passport number.",
+  "Do you wish to receive notifications regarding your passport expiry?": "Do you wish to receive notifications regarding your passport expiry?",
+  "Confirm your identity": "Confirm your identity",
+  "Please confirm your identity so we can verify who you are.": "Please confirm your identity so we can verify who you are.",
+  "Enter your name as it appears on your passport": "Enter your name as it appears on your passport",
+  "Enter the Email address you wish to receive reminders with": "Enter the Email address you wish to receive reminders with",
+  "Passport expiry date": "Passport expiry date",
+  "YYY-MM": "YYY-MM",
+  "Email address": "Email address"
 }
