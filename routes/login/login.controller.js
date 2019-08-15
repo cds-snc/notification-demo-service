@@ -1,8 +1,7 @@
 const { validationResult, checkSchema } = require("express-validator");
 const {
   errorArray2ErrorObject,
-  validateRedirect,
-  checkErrors
+  validateRedirect
 } = require("./../../utils");
 const {
   loginSchema,

@@ -21,11 +21,8 @@ var API = (function(users) {
     return null;
   };
 
-  const getMatches = () => [];
-
   return {
-    getUser,
-    getMatches
+    getUser
   };
 })(users);
 

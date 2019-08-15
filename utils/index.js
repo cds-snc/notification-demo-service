@@ -1,7 +1,5 @@
-const API = require("./../api");
 const { validationResult } = require("express-validator");
 const { sendNotification } = require("./notify");
-const winston = require("../config/winston.config");
 
 /*
   original format is an array of error objects: https://express-validator.github.io/docs/validation-result-api.html
@@ -128,7 +126,6 @@ const doAuth = function(req, res, next) {
  */
 const checkErrors = template => {
   return (req, res, next) => {
-    winston.debug(JSON.stringify(req.session));
     const errors = validationResult(req);
 
     // copy all posted parameters, but remove the redirect

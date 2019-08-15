@@ -54,7 +54,7 @@ describe("Test /login responses", () => {
       );
       expect($(".error-list__list").children()).toHaveLength(1);
       expect($(".validation-message").text()).toEqual(
-        "Error: Access code must be 9 characters"
+        "Error: Passport number must be 9 characters"
       );
       expect($("#code").attr("aria-describedby")).toEqual("code-error");
       expect($("#code").attr("autofocus")).toEqual("autofocus");
@@ -66,7 +66,7 @@ describe("Test /login responses", () => {
         .send({ redirect: "/" });
       const $ = cheerio.load(response.text);
       expect($(".validation-message").text()).toEqual(
-        "Error: Access code must be 9 characters"
+        "Error: Passport number must be 9 characters"
       );
       expect($("#code").attr("aria-describedby")).toEqual("code-error");
     });

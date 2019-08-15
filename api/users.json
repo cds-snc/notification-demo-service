@@ -1,13 +1,7 @@
 [
   {
     "login": {
-      "code": "A5G98S4K1",
-      "auth": false
-    },
-    "personal": {
-      "firstName": "Gabrielle",
-      "lastName": "Roy",
-      "email": "name@example.com"
+      "code": "A5G98S4K1"
     },
     "confirmCode": {
       "code": "5H3P9IO5816"
@@ -15,13 +9,7 @@
   },
   {
     "login": {
-      "code": "G5G98S4K1",
-      "auth": false
-    },
-    "personal": {
-      "firstName": "Tim",
-      "lastName": "Arney",
-      "email": "name@example.com"
+      "code": "G5G98S4K1"
     },
     "confirmCode": {
       "code": "5H3P9IO5816"
@@ -29,13 +17,7 @@
   },
   {
     "login": {
-      "code": "P5G98S4K1",
-      "auth": false
-    },
-    "personal": {
-      "firstName": "John",
-      "lastName": "O'Brien",
-      "email": "name@example.com"
+      "code": "P5G98S4K1"
     },
     "confirmCode": {
       "code": "5H3P9IO5816"
@@ -43,13 +25,7 @@
   },
   {
     "login": {
-      "code": "X5G98S4K1",
-      "auth": false
-    },
-    "personal": {
-      "firstName": "Max",
-      "lastName": "Neuvians",
-      "email": "name@example.com"
+      "code": "X5G98S4K1"
     },
     "confirmCode": {
       "code": "5H3P9IO5816"
@@ -57,13 +33,7 @@
   },
   {
     "login": {
-      "code": "Q5G98S4K1",
-      "auth": false
-    },
-    "personal": {
-      "firstName": "Ross",
-      "lastName": "Ferguson",
-      "email": "name@example.com"
+      "code": "Q5G98S4K1"
     },
     "confirmCode": {
       "code": "5H3P9IO5816"
@@ -71,13 +41,7 @@
   },
   {
     "login": {
-      "code": "M5G98S4K1",
-      "auth": false
-    },
-    "personal": {
-      "firstName": "Bryan",
-      "lastName": "Willey",
-      "email": "name@example.com"
+      "code": "M5G98S4K1"
     },
     "confirmCode": {
       "code": "5H3P9IO5816"
@@ -88,10 +52,13 @@
       "code": "S5G98S4K1",
       "auth": false
     },
-    "personal": {
-      "firstName": "Paul",
-      "lastName": "Craig",
-      "email": "name@example.com"
+    "confirmCode": {
+      "code": "5H3P9IO5816"
+    }
+  },
+  {
+    "login": {
+      "code": "Z5G98S4K1"
     },
     "confirmCode": {
       "code": "5H3P9IO5816"
@@ -99,27 +66,7 @@
   },
   {
     "login": {
-      "code": "Z5G98S4K1",
-      "auth": false
-    },
-    "personal": {
-      "firstName": "Damien",
-      "lastName": "Trudel",
-      "email": "name@example.com"
-    },
-    "confirmCode": {
-      "code": "5H3P9IO5816"
-    }
-  },
-  {
-    "login": {
-      "code": "X5G98S4KX",
-      "auth": false
-    },
-    "personal": {
-      "firstName": "Mario",
-      "lastName": "Garneau",
-      "email": "name@example.com"
+      "code": "X5G98S4KX"
     },
     "confirmCode": {
       "code": "5H3P9IO5816"

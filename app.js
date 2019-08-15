@@ -7,8 +7,6 @@ const express = require("express"),
   cookieParser = require("cookie-parser"),
   compression = require("compression"),
   helmet = require("helmet"),
-  morgan = require("morgan"),
-  winston = require("./config/winston.config"),
   sassMiddleware = require("node-sass-middleware"),
   path = require("path"),
   cookieSession = require("cookie-session"),
@@ -21,10 +19,6 @@ var app = express();
 // view engine setup
 app.set("views", path.join(__dirname, "./views"));
 app.set("view engine", "pug");
-
-// if NODE_ENV does not equal 'test', add a request logger
-process.env.NODE_ENV !== "test" &&
-  app.use(morgan("combined", { stream: winston.stream }));
 
 // general app configuration.
 app.use(express.json());
@@ -91,12 +85,7 @@ app.use(function(err, req, res) {
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};
 
-  winston.debug(`Service error: ${err}`);
-  winston.error(
-    `${err.status || 500} - ${err.message} - ${req.originalUrl} - ${
-      req.method
-    } - ${req.ip}`
-  );
+  console.log(err.message);
 
   res.status(err.status || 500).json({ message: "Internal service error." });
 });

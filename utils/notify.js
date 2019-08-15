@@ -1,4 +1,3 @@
-const winston = require("../config/winston.config");
 const NotifyClient = require("notifications-node-client").NotifyClient;
 const sendNotification = async req => {
   const data = req.body;
@@ -20,11 +19,11 @@ const sendNotification = async req => {
       reference: "Sign Up"
     })
     .then(response => {
-      winston.info(response.body);
+      console.log(response.body);
       return true;
     })
     .catch(err => {
-      winston.error(err.message);
+      console.log(err.message);
       return false;
     });
 };

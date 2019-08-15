@@ -4,18 +4,17 @@ const {
   checkErrors,
   sendNotification
 } = require("./../../utils");
-const winston = require("./../../config/winston.config");
 const { nameSchema } = require("./../../formSchemas.js");
 
 module.exports = function(app) {
-  app.get("/personal/name", (req, res) => {
-    res.render("personal/name", { data: req.session });
+  app.get("/personal/identity", (req, res) => {
+    res.render("personal/identity", { data: req.session });
   });
   app.post(
-    "/personal/name",
+    "/personal/identity",
     validateRedirect,
     checkSchema(nameSchema),
-    checkErrors("personal/name"),
+    checkErrors("personal/identity"),
     postName
   );
 };
@@ -24,12 +23,10 @@ const postName = async (req, res, next) => {
   const confirm = req.body.confirm;
 
   if (confirm !== "Yes") {
-    return res.redirect("/offramp/name");
+    return res.redirect("/offramp/identity");
   }
 
-  const result = await sendNotification(req, res, next);
-
-  winston.debug(`send result ${result}`);
+  await sendNotification(req, res, next);
 
   return res.redirect(req.body.redirect);
 };
