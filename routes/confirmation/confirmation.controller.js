@@ -11,10 +11,7 @@ module.exports = function(app) {
     res.render("confirmation/confirmation", { data: req.session })
   );
 
-  // Might make more sense to put this somewhere else?
-  app.get("/review", (req, res) => {
-    res.render("confirmation/review", { data: req.session });
-  });
+  /*
 
   app.post(
     "/review",
@@ -24,4 +21,5 @@ module.exports = function(app) {
     sendNotification,
     (req, res) => res.redirect(req.body.redirect)
   );
+  */
 };

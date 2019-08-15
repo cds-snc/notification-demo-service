@@ -17,9 +17,9 @@ module.exports = function(app) {
 };
 
 const postName = (req, res) => {
-  const name = req.body.name;
+  const confirm = req.body.confirm;
 
-  if (name !== "Yes") {
+  if (confirm !== "Yes") {
     return res.redirect("/offramp/name");
   }
 

@@ -6,8 +6,6 @@ const {
 } = require("./../../utils");
 const {
   loginSchema,
-  birthSchema,
-  authSchema
 } = require("./../../formSchemas.js");
 const API = require("../../api");
 
@@ -48,28 +46,4 @@ const postLoginCode = (req, res) => {
 
   req.session = user;
   return res.redirect(req.body.redirect);
-};
-
-const getAuth = (req, res) => {
-  if (!req.query.redirect) {
-    return res.redirect("/start");
-  }
-
-  return res.render("login/auth", { data: req.session });
-};
-
-const postAuth = (req, res) => {
-  if (!req.query.redirect) {
-    return res.redirect("/start");
-  }
-
-  // set "auth" to true
-  req.session.login.auth = true;
-
-  let redirect = decodeURIComponent(req.query.redirect);
-  if (!redirect.startsWith("/")) {
-    throw new Error(`[POST ${req.path}] can only redirect to relative URLs`);
-  }
-
-  return res.redirect(redirect);
 };
