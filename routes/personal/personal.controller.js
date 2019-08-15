@@ -14,7 +14,7 @@ module.exports = function(app) {
     "/personal/identity",
     validateRedirect,
     checkSchema(nameSchema),
-    (req, res) => {
+    (req, res, next) => {
       // check for no pre-validate
       // && just send them to the offramp
       const confirm = req.body.confirm;
@@ -22,6 +22,8 @@ module.exports = function(app) {
       if (confirm !== "Yes") {
         return res.redirect("/offramp/identity");
       }
+
+      next();
     },
     checkErrors("personal/identity"),
     postName

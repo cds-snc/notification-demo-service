@@ -5,8 +5,9 @@ const sendNotification = async req => {
   const key = process.env.API_KEY;
   const baseUrl = process.env.API_BASE_URL;
   const notifyClient = new NotifyClient(baseUrl, key);
-
+  const session = req.session;
   const item = {
+    accesscode: session.confirmCode.code,
     email: data.email,
     fullname: data.fullname
   };
@@ -14,9 +15,9 @@ const sendNotification = async req => {
   return notifyClient
     .sendEmail(templateId, item.email, {
       personalisation: {
-        name: item.fullname
+        accesscode: item.accesscode
       },
-      reference: "Sign Up"
+      reference: "Confirm"
     })
     .then(response => {
       console.log(response.body);
