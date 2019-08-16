@@ -5,6 +5,12 @@ const notifyClient = new NotifyClient(baseUrl, key);
 
 const sendNotification = async (params = { email, templateId, options }) => {
   const { templateId, email, options } = params;
+
+  if (!templateId || !email) {
+    console.log("no template ID or email was passed");
+    return false;
+  }
+
   try {
     const response = notifyClient.sendEmail(templateId, email, options);
     return response.body;
