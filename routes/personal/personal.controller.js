@@ -4,6 +4,7 @@ const {
   checkErrors,
   sendNotification
 } = require("./../../utils");
+
 const { nameSchema } = require("./../../formSchemas.js");
 
 module.exports = function(app) {
@@ -15,7 +16,7 @@ module.exports = function(app) {
     validateRedirect,
     checkSchema(nameSchema),
     (req, res, next) => {
-      // check for no pre-validate
+      // check for "no" i.e. don't send me notifications
       // && just send them to the offramp
       const confirm = req.body.confirm;
 
@@ -37,7 +38,22 @@ const postName = async (req, res, next) => {
     return res.redirect("/offramp/identity");
   }
 
-  await sendNotification(req, res, next);
+  const data = req.body;
+  const templateId = process.env.TEMPLATE_ID;
+  const session = req.session;
+
+  const options = {
+    personalisation: {
+      accesscode: session.confirmCode.code
+    },
+    reference: "Confirm"
+  };
+
+  await sendNotification({
+    email: data.email,
+    templateId,
+    options
+  });
 
   return res.redirect(req.body.redirect);
 };
