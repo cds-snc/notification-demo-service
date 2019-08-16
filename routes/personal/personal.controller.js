@@ -39,7 +39,7 @@ const postName = async (req, res, next) => {
   }
 
   const data = req.body;
-  const templateId = process.env.TEMPLATE_ID;
+  const templateId = process.env.CONFIRM_TEMPLATE_ID;
   const session = req.session;
 
   const options = {
@@ -51,7 +51,7 @@ const postName = async (req, res, next) => {
 
   await sendNotification({
     email: data.email,
-    templateId,
+    templateId: templateId,
     options
   });
 

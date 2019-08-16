@@ -1,5 +1,5 @@
 const { validationResult } = require("express-validator");
-const { sendNotification } = require("./notify");
+const { sendNotification, notifyClient } = require("./notify");
 
 /*
   original format is an array of error objects: https://express-validator.github.io/docs/validation-result-api.html
@@ -183,11 +183,12 @@ const hasData = (obj, key) => {
 module.exports = {
   errorArray2ErrorObject,
   validateRedirect,
-  sendNotification,
   checkErrors,
   doAuth,
   hasData,
   checkPublic,
   checkLangQuery,
-  isValidDate
+  isValidDate,
+  sendNotification,
+  notifyClient
 };
