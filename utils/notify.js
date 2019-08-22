@@ -1,7 +1,8 @@
 const NotifyClient = require("notifications-node-client").NotifyClient;
 const key = process.env.API_KEY;
 const baseUrl = process.env.API_BASE_URL;
-const notifyClient = new NotifyClient(baseUrl, key);
+const notifyClient =
+  process.env.NODE_ENV != "test" ? new NotifyClient(baseUrl, key) : false;
 
 const sendNotification = async (params = { email, templateId, options }) => {
   const { templateId, email, options } = params;

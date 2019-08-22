@@ -1,7 +1,7 @@
 const request = require('supertest')
 const cheerio = require('cheerio')
 const app = require('../../app.js')
-const appTitle = "Passport Renewal Notification Demo"
+const appTitle = "Set up passport renewal notifications"
 
 describe('Test server responses', () => {
   test('it redirects to /start for the root path', async () => {
