@@ -5,8 +5,7 @@ const path = require("path");
 const sendFile = async fileName => {
   try {
     const data = await fs.readFile(
-      path.join(__dirname, "/", fileName),
-      "binary"
+      path.join(__dirname, "/", fileName)
     );
     const file = Buffer.from(data);
     const link = await notifyClient.prepareUpload(file);
