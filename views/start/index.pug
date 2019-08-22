@@ -3,17 +3,19 @@ include ../_includes/banner
 
 block content
 
-  h1 #{__('Passport Renewal Notification Demo')}
+  h1 #{__('Set up passport renewal notifications')}
 
   +banner('blue')
     p #{__('This is a demo of what a Passport renewal reminder system could look like.')}
 
   div
-    p #{__('Welcome to the')} <strong>#{__('Passport Renewal Notification Demo')}</strong> #{__('service')}.
+    p #{__('With this service, you can set up notifications that will automatically inform you when your passport is near the expiry date.')}
+
+    p #{__('What you’ll need to set up notifications:') }
     ul
-      li #{__('This demo is maintaned by')} 
-       a(href='https://digital.canada.ca') CDS
-      li #{__('This will not actually alert you to your passport expiry at this time')}
+      li #{__('Your passport number')}
+      li #{__('Full name and email address')}
+      li #{__('Your passport expiry date (YYYY-MM)')}
 
   div
     a.button-link(href='/login/code' role='button' draggable='false') #{__('Start now')} <span aria-hidden="true">→</span>
