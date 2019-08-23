@@ -25,7 +25,7 @@
   "Error:": "Error:",
   "Please correct the errors on the page": "Please correct the errors on the page",
   "errors.login.length": "Passport number must be 9 characters",
-  "errors.login.alphanumeric": "errors.login.alphanumeric",
+  "errors.login.alphanumeric": "Passport number must be alphanumeric",
   "Your taxes can’t be completed using this service": "Your taxes can’t be completed using this service",
   "Your tax return is too complex to be filed using this service. Nothing about your taxes is incorrect — see below for further instructions on how to complete your tax return.": "Your tax return is too complex to be filed using this service. Nothing about your taxes is incorrect — see below for further instructions on how to complete your tax return.",
   "To finish filing your taxes for 2018, you will need to do one of the following:": "To finish filing your taxes for 2018, you will need to do one of the following:",
@@ -45,7 +45,7 @@
   "No": "No, cancel this process",
   "errors.fullname.length": "Full name is required",
   "errors.email.length": "Email is required",
-  "errors.expiry.date": "Passport expiry date",
+  "errors.expiry.date": "Passport enter a valid expiry date",
   "errors.yesNo": "Confirm is required",
   "Continue with an incorrect name on file": "Continue with an incorrect name on file",
   "Without your correct name on file, you can’t file your taxes using this online service. You can still file using the Claim Tax Benefits service – follow the instructions on page X of the paper package we mailed to you.": "Without your correct name on file, you can’t file your taxes using this online service. You can still file using the Claim Tax Benefits service – follow the instructions on page X of the paper package we mailed to you.",
@@ -74,5 +74,6 @@
   "Passport renewal notifications were cancelled": "Passport renewal notifications were cancelled",
   "You won’t receive any emails from this service about your passport expiring.": "You won’t receive any emails from this service about your passport expiring.",
   "You can go back and set up notifications at any time.": "You can go back and set up notifications at any time.",
-  "What you’ll need to set up notifications:": "What you’ll need to set up notifications:"
+  "What you’ll need to set up notifications:": "What you’ll need to set up notifications:",
+  "You can use this confirmation number to call Passport Canada and get more information or troubleshoot problems with this service.": "You can use this confirmation number to call Passport Canada and get more information or troubleshoot problems with this service."
 }
