@@ -9,9 +9,9 @@ block content
 
   div
     <p>#{__('You’ll receive notifications about your passport nearing the expiry date at this email address:')} 
-    <strong>#{'test@test.com'}</strong>
+    <strong>#{data.email}</strong>
     </p>
     <p>#{__('Your confirmation number is: ')}
-    <strong>#{'5H3P9IO5816'}</strong>
+    <strong>#{data.confirmCode.code}</strong>
     <p> 
     <p> #{'You can use this confirmation number to call Passport Canada and get more information or troubleshoot problems with this service.'}</p>
