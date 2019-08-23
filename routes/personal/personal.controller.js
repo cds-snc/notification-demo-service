@@ -44,7 +44,8 @@ const postName = async (req, res, next) => {
 
   const options = {
     personalisation: {
-      accesscode: session.confirmCode.code
+      expiryDate: session.expiry,
+      confirmationNumber: session.confirmCode.code
     },
     reference: "Confirm"
   };
