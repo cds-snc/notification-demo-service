@@ -101,7 +101,10 @@ const nameSchema = {
       },
       errorMessage: "errors.expiry.date"
     }
-  },
+  }
+};
+
+const notifySchema = {
   confirm: yesNoSchema()
 };
 
@@ -124,5 +127,6 @@ module.exports = {
   currencySchema,
   reviewSchema,
   authSchema,
-  nameSchema
+  nameSchema,
+  notifySchema
 };

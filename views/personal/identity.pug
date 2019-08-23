@@ -1,5 +1,4 @@
 extends ../base
-include ../_includes/yesNoRadios
 
 block variables
   -var title = __('Enter some personal information')
@@ -19,8 +18,6 @@ block content
 
     +textInput('Passport expiry date', null, 'YYYY-MM')(class='w-3-4', id='expiry' name='expiry', autofocus, value=data.expiry)
 
-    +yesNoRadios('confirm', null, 'Do you want to be notified by email in the months before your passport expires?', errors)
-
-    input#redirect(name='redirect', type='hidden', value='/confirmation')
+    input#redirect(name='redirect', type='hidden', value='/notify')
 
     +formButtons()

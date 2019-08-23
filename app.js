@@ -67,6 +67,7 @@ app.locals.hasData = hasData;
 require("./routes/start/start.controller")(app);
 require("./routes/login/login.controller")(app);
 require("./routes/personal/personal.controller")(app);
+require("./routes/notify/notify.controller")(app);
 require("./routes/confirmation/confirmation.controller")(app);
 require("./routes/offramp/offramp.controller")(app);
 require("./routes/remind/remind.controller")(app);
@@ -78,6 +79,7 @@ app.get("/clear", (req, res) => {
 });
 
 app.use(function(req, res, next) {
+  console.log((req.originalUrl))
   next(globalError(404));
 });
 

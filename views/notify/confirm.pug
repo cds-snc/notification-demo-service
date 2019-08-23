@@ -1,0 +1,19 @@
+extends ../base
+include ../_includes/yesNoRadios
+
+block variables
+  -var title = __('Please confirm')
+
+block content
+
+  h1 #{title}
+
+  div
+    p #{__('Please confirm.')}
+  
+  form.cra-form(method='post')
+    +yesNoRadios('confirm', null, 'Do you want to be notified by email in the months before your passport expires?', errors)
+
+    input#redirect(name='redirect', type='hidden', value='/confirmation')
+
+    +formButtons()
