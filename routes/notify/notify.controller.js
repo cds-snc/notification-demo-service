@@ -16,7 +16,6 @@ const postName = async (req, res, next) => {
     return res.redirect("/offramp/identity");
   }
 
-  const data = req.body;
   const templateId = process.env.CONFIRM_TEMPLATE_ID;
   const session = req.session;
 
