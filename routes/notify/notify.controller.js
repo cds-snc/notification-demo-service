@@ -16,6 +16,10 @@ const postName = async (req, res, next) => {
     return res.redirect("/offramp/identity");
   }
 
+  if(!process.env.CONFIRM_TEMPLATE_ID){
+    throw new Error("CONFIRM_TEMPLATE_ID not defined")
+  }
+
   const templateId = process.env.CONFIRM_TEMPLATE_ID;
   const session = req.session;
 

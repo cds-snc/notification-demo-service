@@ -22,6 +22,11 @@ module.exports = async app => {
 
     if (session && session.email) {
       const file = await sendFile("the-file.pdf");
+      
+      if(!process.env.REMIND_TEMPLATE_ID){
+        throw new Error("REMIND_TEMPLATE_ID not defined")
+      }
+
       const templateId = process.env.REMIND_TEMPLATE_ID;
       await sendNotification({
         email: session.email,

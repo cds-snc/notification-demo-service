@@ -1,6 +1,17 @@
 const NotifyClient = require("notifications-node-client").NotifyClient;
+
+if(!process.env.API_KEY){
+  throw new Error("API_KEY not defined")
+}
+
 const key = process.env.API_KEY;
+
+if(!process.env.API_BASE_URL){
+  throw new Error("API_BASE_URL not defined")
+}
+
 const baseUrl = process.env.API_BASE_URL;
+
 const notifyClient =
   process.env.NODE_ENV != "test" ? new NotifyClient(baseUrl, key) : false;
 
