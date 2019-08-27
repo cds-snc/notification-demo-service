@@ -1,5 +1,4 @@
 const { validationResult } = require("express-validator");
-const { sendNotification, notifyClient } = require("./notify");
 
 /*
   original format is an array of error objects: https://express-validator.github.io/docs/validation-result-api.html
@@ -68,42 +67,12 @@ const checkLangQuery = function(req, res, next) {
  * that a user session exists whatever page you end up on.
  */
 const checkPublic = function(req, res, next) {
-  const publicPaths = ["/", "/clear", "/start", "/login/code"];
+  const publicPaths = ["/", "/clear", "/start"];
   if (publicPaths.includes(req.path)) {
     return next();
   }
 
   return next();
-};
-
-/**
- * This request middleware is used to add an "auth" step to some of our pages
- *
- * If we are visiting one of our edit pages, we want to ask users
- * another question before we let them edit their info.
- *
- * This means that we want to show the /login/auth page the first time, but not afterwards
- *
- * We don't want to show the /login/auth page if
- *
- * - we're running tests
- * - we have already set "auth" to true
- *
- * Otherwise, we redirect to the /login/auth page and put the redirect query in the URL
- */
-const doAuth = function(req, res, next) {
-  // if running tests, do nothing
-  if (process.env.NODE_ENV === "test") {
-    return next();
-  }
-
-  // go to original url if "auth" is truthy
-  const { login: { auth = null } = {} } = req.session;
-  if (auth) {
-    return next();
-  }
-
-  return res.redirect(`/login/auth?redirect=${encodeURIComponent(req.path)}`);
 };
 
 /**
@@ -145,16 +114,18 @@ const checkErrors = template => {
   };
 };
 
-//POST functions that handle setting the login data in the session and handle redirecting to the next page or sending an error to the client.
-//Note that this is not the only error validation, see routes defined above.
-const validateRedirect = (req, res, next) => {
-  let redirect = req.body.redirect || null;
+
+// POST functions that handle setting the login data in the session and will redirecting to the next page or send back an error to the client.
+// Note that this is not the only error validation, see routes defined above.
+const doRedirect = (req, res) => {
+  let redirect = req.body.redirect || null
 
   if (!redirect) {
-    throw new Error(`[POST ${req.path}] 'redirect' parameter missing`);
+    throw new Error(`[POST ${req.path}] 'redirect' parameter missing`)
   }
-  return next();
-};
+
+  return res.redirect(redirect)
+}
 
 /* Pug filters */
 
@@ -182,13 +153,10 @@ const hasData = (obj, key) => {
 
 module.exports = {
   errorArray2ErrorObject,
-  validateRedirect,
   checkErrors,
-  doAuth,
   hasData,
   checkPublic,
   checkLangQuery,
   isValidDate,
-  sendNotification,
-  notifyClient
+  doRedirect
 };

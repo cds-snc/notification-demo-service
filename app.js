@@ -16,9 +16,15 @@ const express = require("express"),
 // initialize application.
 var app = express();
 
-// view engine setup
-app.set("views", path.join(__dirname, "./views"));
-app.set("view engine", "pug");
+// @ todo
+// register views dynamically?
+// cors
+// security headers
+// testing
+// build pipeline
+// storing data
+// register step - check if completed
+// if not redirect to prev step
 
 // general app configuration.
 app.use(express.json());
@@ -63,14 +69,15 @@ app.use(checkLangQuery);
 app.locals.GITHUB_SHA = process.env.GITHUB_SHA || null;
 app.locals.hasData = hasData;
 
+// view engine setup
+app.locals.basedir = path.join(__dirname, "./views");
+app.set("views", [path.join(__dirname, "./views")]);
+app.set("view engine", "pug");
+
 // configure routes
 require("./routes/start/start.controller")(app);
-require("./routes/login/login.controller")(app);
 require("./routes/personal/personal.controller")(app);
-require("./routes/notify/notify.controller")(app);
 require("./routes/confirmation/confirmation.controller")(app);
-require("./routes/offramp/offramp.controller")(app);
-require("./routes/remind/remind.controller")(app);
 
 // clear session
 app.get("/clear", (req, res) => {
@@ -79,7 +86,7 @@ app.get("/clear", (req, res) => {
 });
 
 app.use(function(req, res, next) {
-  console.log((req.originalUrl))
+  console.log(req.originalUrl);
   next(globalError(404));
 });
 

@@ -1,0 +1,13 @@
+extends /base
+
+block variables
+  -var title = __('All done!')
+
+block content
+
+  h1 #{title}
+
+  div
+    <p>#{__('You’ll receive notifications about your passport nearing the expiry date at this email address:')} 
+    <strong>#{data.email}</strong>
+    </p>

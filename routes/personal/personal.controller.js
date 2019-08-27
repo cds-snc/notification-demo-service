@@ -1,20 +1,19 @@
+path = require("path");
 const { checkSchema } = require("express-validator");
-const { validateRedirect, checkErrors } = require("./../../utils");
-const { nameSchema } = require("./../../formSchemas.js");
+const { doRedirect, checkErrors } = require("./../../utils");
+const { Schema } = require("./schema.js");
 
 module.exports = function(app) {
+  // add this dir to the views path
+  app.set("views", [...app.get("views"), path.join(__dirname, "./")]);
+
   app.get("/personal/identity", (req, res) => {
-    res.render("personal/identity", { data: req.session });
+    res.render("personal", { data: req.session });
   });
   app.post(
     "/personal/identity",
-    validateRedirect,
-    checkSchema(nameSchema),
-    checkErrors("personal/identity"),
-    postName
+    checkSchema(Schema),
+    checkErrors("personal"),
+    doRedirect
   );
-};
-
-const postName = async (req, res, next) => {
-  return res.redirect(req.body.redirect);
 };
