@@ -1,6 +1,7 @@
-path = require("path");
+const path = require("path");
+const nn = require("nonce-next");
 const { checkSchema } = require("express-validator");
-const { doRedirect, checkErrors } = require("./../../utils");
+const { doRedirect, checkErrors, checkNonce } = require("./../../utils");
 const { Schema } = require("./schema.js");
 
 module.exports = function(app) {
@@ -8,10 +9,11 @@ module.exports = function(app) {
   app.set("views", [...app.get("views"), path.join(__dirname, "./")]);
 
   app.get("/personal/identity", (req, res) => {
-    res.render("personal", { data: req.session });
+    res.render("personal", { data: req.session, nonce: nn.generate() });
   });
   app.post(
     "/personal/identity",
+    checkNonce,
     checkSchema(Schema),
     checkErrors("personal"),
     doRedirect

@@ -1,6 +1,5 @@
 // import environment variables.
 require("dotenv").config();
-const globalError = require("http-errors");
 
 // import node modules.
 const express = require("express"),
@@ -11,16 +10,13 @@ const express = require("express"),
   path = require("path"),
   cookieSession = require("cookie-session"),
   cookieSessionConfig = require("./config/cookieSession.config"),
-  { hasData, checkPublic, checkLangQuery } = require("./utils");
+  { hasData, checkPublic, checkLangQuery } = require("./utils"),
+  csp = require("./config/csp.config");
 
 // initialize application.
 var app = express();
 
 // @ todo
-// register views dynamically?
-// cors
-// security headers
-// testing
 // build pipeline
 // storing data
 // register step - check if completed
@@ -59,6 +55,7 @@ app.use(express.static(path.join(__dirname, "public")));
 // noSniff to keep clients from sniffing the MIME type
 // xssFilter adds some small XSS protections
 app.use(helmet());
+app.use(helmet.contentSecurityPolicy({ directives: csp }));
 // gzip response body compression.
 app.use(compression());
 
@@ -85,19 +82,8 @@ app.get("/clear", (req, res) => {
   res.redirect(302, "/");
 });
 
-app.use(function(req, res, next) {
-  console.log(req.originalUrl);
-  next(globalError(404));
-});
-
-// handle global errors.
-app.use(function(err, req, res) {
-  res.locals.message = err.message;
-  res.locals.error = req.app.get("env") === "development" ? err : {};
-
-  console.log(err.message);
-
-  res.status(err.status || 500).json({ message: "Internal service error." });
+app.get("*", function(req, res, next) {
+  res.send("Not Found")
 });
 
 module.exports = app;

@@ -1,4 +1,5 @@
 const { validationResult } = require("express-validator");
+const nn = require("nonce-next");
 
 /*
   original format is an array of error objects: https://express-validator.github.io/docs/validation-result-api.html
@@ -114,18 +115,17 @@ const checkErrors = template => {
   };
 };
 
-
 // POST functions that handle setting the login data in the session and will redirecting to the next page or send back an error to the client.
 // Note that this is not the only error validation, see routes defined above.
 const doRedirect = (req, res) => {
-  let redirect = req.body.redirect || null
+  let redirect = req.body.redirect || null;
 
   if (!redirect) {
-    throw new Error(`[POST ${req.path}] 'redirect' parameter missing`)
+    throw new Error(`[POST ${req.path}] 'redirect' parameter missing`);
   }
 
-  return res.redirect(redirect)
-}
+  return res.redirect(redirect);
+};
 
 /* Pug filters */
 
@@ -151,9 +151,26 @@ const hasData = (obj, key) => {
   });
 };
 
+const checkNonce = (req, res, next) => {
+  if (!req.body.nonce) {
+    // missing params
+    res.status(500);
+    res.send("Fail! - missing nonce");
+  }
+
+  // compare nonce
+  if (!nn.compare(req.body.nonce)) {
+    // OOPS, not valid!
+    res.status(500);
+    res.send("Fail! - Invalid nonce");
+  }
+  next();
+};
+
 module.exports = {
   errorArray2ErrorObject,
   checkErrors,
+  checkNonce,
   hasData,
   checkPublic,
   checkLangQuery,

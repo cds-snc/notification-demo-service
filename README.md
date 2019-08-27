@@ -1,3 +1,3 @@
-# notification-demo-service
+# demo-service
 
 coming soon

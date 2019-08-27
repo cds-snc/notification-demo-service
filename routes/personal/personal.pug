@@ -9,7 +9,6 @@ block content
 
   div
     p #{__('Please provide some personal information so we can verify you’re the owner of this passport and set up your renewal notification.')}
-    p 'hello'
   form.cra-form(method='post')
 
     +textInput('Full name', null, 'Enter your name as it appears on your passport')(class='w-3-4', id='fullname' name='fullname', autofocus, value=data.fullname)
@@ -18,6 +17,8 @@ block content
 
     +textInput('Passport expiry date', null, 'YYYY-MM')(class='w-3-4', id='expiry' name='expiry', autofocus, value=data.expiry)
 
+    input(name='nonce', type='hidden', value=nonce)
+    
     input#redirect(name='redirect', type='hidden', value='/confirmation')
 
     +formButtons()
