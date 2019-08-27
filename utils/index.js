@@ -1,4 +1,5 @@
 const { validationResult } = require("express-validator");
+const { routes } = require("../config/routes.config");
 const nn = require("nonce-next");
 
 /*
@@ -167,6 +168,31 @@ const checkNonce = (req, res, next) => {
   next();
 };
 
+const getPreviousRoute = name => {
+  const route = getRouteByName(name);
+  return routes[Number(route.index) - 1];
+};
+const getNextRoute = name => {
+  const route = getRouteByName(name);
+  return routes[Number(route.index) + 1];
+};
+
+const getRouteByName = name => {
+  const route = routes
+    .map((route, index) => {
+      if (route.name === name) {
+        return { index, route };
+      }
+    })
+    .filter(function(route) {
+      return route != null;
+    });
+
+  if (route.length >= 1) {
+    return route[0];
+  }
+};
+
 module.exports = {
   errorArray2ErrorObject,
   checkErrors,
@@ -175,5 +201,8 @@ module.exports = {
   checkPublic,
   checkLangQuery,
   isValidDate,
-  doRedirect
+  doRedirect,
+  getPreviousRoute,
+  getNextRoute,
+  getRouteByName
 };

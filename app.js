@@ -11,7 +11,8 @@ const express = require("express"),
   cookieSession = require("cookie-session"),
   cookieSessionConfig = require("./config/cookieSession.config"),
   { hasData, checkPublic, checkLangQuery } = require("./utils"),
-  csp = require("./config/csp.config");
+  csp = require("./config/csp.config"),
+  { configRoutes } = require("./config/routes.config");
 
 // initialize application.
 var app = express();
@@ -71,10 +72,7 @@ app.locals.basedir = path.join(__dirname, "./views");
 app.set("views", [path.join(__dirname, "./views")]);
 app.set("view engine", "pug");
 
-// configure routes
-require("./routes/start/start.controller")(app);
-require("./routes/personal/personal.controller")(app);
-require("./routes/confirmation/confirmation.controller")(app);
+configRoutes(app);
 
 // clear session
 app.get("/clear", (req, res) => {
@@ -83,7 +81,7 @@ app.get("/clear", (req, res) => {
 });
 
 app.get("*", function(req, res, next) {
-  res.send("Not Found")
+  res.send("Not Found");
 });
 
 module.exports = app;
