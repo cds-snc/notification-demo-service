@@ -17,7 +17,7 @@ module.exports = function(app) {
   app.set("views", [...app.get("views"), path.join(__dirname, "./")]);
 
   app.get(route.path, (req, res) => {
-    res.render(name, { data: req.session, name, nonce: nn.generate() });
+    res.render(name, { data: req.session, name, nonce: nn.generate(60000) });
   });
 
   app.post(

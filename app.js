@@ -22,6 +22,7 @@ var app = express();
 // storing data
 // register step - check if completed
 // if not redirect to prev step
+// auth
 
 // general app configuration.
 app.use(express.json());
