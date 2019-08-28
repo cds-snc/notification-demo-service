@@ -122,18 +122,32 @@ const checkErrors = template => {
   };
 };
 
-const validateRouteData = async (routePath, formData) => {
-  return new Promise((resolve, reject) => {
-    request.post(
-      { url: routePath, form: formData },
-      (err, httpResponse, body) => {
-        if (err) {
-          resolve(err.message);
-        }
+const getHostProtocol = req => {
+  if (req.secure) {
+    return "https";
+  }
 
-        resolve(body);
+  return "http";
+};
+
+const getDomain = req => {
+  const protocol = getHostProtocol(req);
+  const host = req.headers.host;
+  return `${protocol}://${host}`;
+};
+
+const validateRouteData = async (req, routePath, formData) => {
+  const domain = getDomain(req);
+  const url = `${domain}/${routePath}`;
+
+  return new Promise((resolve, reject) => {
+    request.post({ url, form: formData }, (err, httpResponse, body) => {
+      if (err) {
+        resolve(err.message);
       }
-    );
+
+      resolve(body);
+    });
   });
 };
 

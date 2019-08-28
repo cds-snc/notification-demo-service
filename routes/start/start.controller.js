@@ -24,9 +24,7 @@ module.exports = function(app) {
   // redirect from "/" → "/start"
   app.get("/", (req, res) => res.redirect(route.path));
   app.get(route.path, async (req, res) => {
-    console.log(
-      await validateRouteData("http://localhost:3005/personal", formData)
-    );
+    console.log(await validateRouteData(req, "personal", formData));
     res.render(name, { nextRoute: getNextRoute(name).path });
   });
 };
