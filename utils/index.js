@@ -1,5 +1,5 @@
 const { validationResult } = require("express-validator");
-const { routes } = require("../config/routes.config");
+const { routes: defaultRoutes, Route } = require("../config/routes.config");
 const nn = require("nonce-next");
 
 /*
@@ -116,16 +116,14 @@ const checkErrors = template => {
   };
 };
 
-// POST functions that handle setting the login data in the session and will redirecting to the next page or send back an error to the client.
-// Note that this is not the only error validation, see routes defined above.
-const doRedirect = (req, res) => {
-  let redirect = req.body.redirect || null;
+const doRedirect = (req, res, next) => {
+  const nextRoute = getNextRoute(req.body.name);
 
-  if (!redirect) {
+  if (!nextRoute.path) {
     throw new Error(`[POST ${req.path}] 'redirect' parameter missing`);
   }
 
-  return res.redirect(redirect);
+  return res.redirect(nextRoute.path);
 };
 
 /* Pug filters */
@@ -154,30 +152,45 @@ const hasData = (obj, key) => {
 
 const checkNonce = (req, res, next) => {
   if (!req.body.nonce) {
-    // missing params
     res.status(500);
     res.send("Fail! - missing nonce");
   }
 
-  // compare nonce
   if (!nn.compare(req.body.nonce)) {
-    // OOPS, not valid!
     res.status(500);
     res.send("Fail! - Invalid nonce");
   }
+
   next();
 };
 
-const getPreviousRoute = name => {
-  const route = getRouteByName(name);
-  return routes[Number(route.index) - 1];
-};
-const getNextRoute = name => {
-  const route = getRouteByName(name);
-  return routes[Number(route.index) + 1];
+const getPreviousRoute = (name, routes = defaultRoutes) => {
+  const route = getRouteWithIndexByName(name, routes);
+  const prevRoute = routes[Number(route.index) - 1];
+
+  if (!prevRoute) {
+    return Route;
+  }
+
+  return prevRoute;
 };
 
-const getRouteByName = name => {
+const getNextRoute = (name, routes = defaultRoutes) => {
+  const route = getRouteWithIndexByName(name, routes);
+  const nextRoute = routes[Number(route.index) + 1];
+
+  if (!nextRoute) {
+    return Route;
+  }
+
+  return nextRoute;
+};
+
+const getRouteByName = (name, routes = defaultRoutes) => {
+  return getRouteWithIndexByName(name, routes).route;
+};
+
+const getRouteWithIndexByName = (name, routes = defaultRoutes) => {
   const route = routes
     .map((route, index) => {
       if (route.name === name) {
@@ -202,7 +215,8 @@ module.exports = {
   checkLangQuery,
   isValidDate,
   doRedirect,
+  getRouteWithIndexByName,
+  getRouteByName,
   getPreviousRoute,
-  getNextRoute,
-  getRouteByName
+  getNextRoute
 };

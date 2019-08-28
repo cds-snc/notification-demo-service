@@ -1,24 +1,23 @@
 extends /base
 
 block variables
-  -var title = __('Enter some personal information')
+  -var title = __('personal.title')
 
 block content
 
   h1 #{title}
 
   div
-    p #{__('Please provide some personal information so we can verify you’re the owner of this passport and set up your renewal notification.')}
+    p #{__('personal.intro')}
   form.cra-form(method='post')
 
-    +textInput('Full name', null, 'Enter your name as it appears on your passport')(class='w-3-4', id='fullname' name='fullname', autofocus, value=data.fullname)
+    +textInput('form.fullname', null, 'form.fullname.desc')(class='w-3-4', id='fullname' name='fullname', autofocus, value=data.fullname)
 
-    +textInput('Email address', null, 'Enter the email address where you want receive reminders')(class='w-3-4', id='email' name='email', autofocus, value=data.email)
+    +textInput('form.email', null, 'form.email.desc')(class='w-3-4', id='email' name='email', autofocus, value=data.email)
 
-    +textInput('Passport expiry date', null, 'YYYY-MM')(class='w-3-4', id='expiry' name='expiry', autofocus, value=data.expiry)
-
-    input(name='nonce', type='hidden', value=nonce)
+    +textInput('form.passport_expiry', null, 'form.passport_expiry.desc')(class='w-3-4', id='expiry' name='expiry', autofocus, value=data.expiry)
     
-    input#redirect(name='redirect', type='hidden', value='/confirmation')
+    input(name='name', type='hidden', value=name)
+    input(name='nonce', type='hidden', value=nonce)
 
     +formButtons()

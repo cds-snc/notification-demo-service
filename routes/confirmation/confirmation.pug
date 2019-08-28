@@ -1,13 +1,13 @@
 extends /base
 
 block variables
-  -var title = __('All done!')
+  -var title = __('confirmation.title')
 
 block content
 
   h1 #{title}
 
   div
-    <p>#{__('You’ll receive notifications about your passport nearing the expiry date at this email address:')} 
+    <p>#{__('confirmation.intro')} 
     <strong>#{data.email}</strong>
     </p>

@@ -3,19 +3,12 @@ include /_includes/banner
 
 block content
 
-  h1 #{__('Set up passport renewal notifications')}
+  h1 #{__('start.title')}
 
   +banner('blue')
-    p #{__('This is a demo of what a Passport renewal reminder system could look like.')}
+    p #{__('start.intro.banner')}
+
+  div !{__('start.intro')}
 
   div
-    p #{__('With this service, you can set up notifications that will automatically inform you when your passport is near the expiry date.')}
-
-    p #{__('What you’ll need to set up notifications:') }
-    ul
-      li #{__('Your passport number')}
-      li #{__('Full name and email address')}
-      li #{__('Your passport expiry date (YYYY-MM)')}
-
-  div
-    a.button-link(href='/personal/identity' role='button' draggable='false') #{__('Start now')} <span aria-hidden="true">→</span>
+    a.button-link(href=nextRoute role='button' draggable='false') #{__('start.submit')} <span aria-hidden="true">→</span>

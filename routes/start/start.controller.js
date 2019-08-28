@@ -1,12 +1,15 @@
 const path = require("path");
-const { getPreviousRoute } = require("../../utils/index");
+const { getNextRoute, getRouteByName } = require("../../utils/index");
 
 module.exports = function(app) {
-  console.log(getPreviousRoute("confirmation"));
+  const name = "start";
+  const route = getRouteByName(name);
   // add this dir to the views path
   app.set("views", [...app.get("views"), path.join(__dirname, "./")]);
 
   // redirect from "/" → "/start"
-  app.get("/", (req, res) => res.redirect("/start"));
-  app.get("/start", (req, res) => res.render("start"));
+  app.get("/", (req, res) => res.redirect(route.path));
+  app.get(route.path, (req, res) =>
+    res.render(name, { nextRoute: getNextRoute(name).path })
+  );
 };
