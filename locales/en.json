@@ -21,5 +21,11 @@
   "form.passport_expiry": "form.passport_expiry",
   "form.passport_expiry.desc": "form.passport_expiry.desc",
   "Continue": "Continue",
-  "Cancel": "Cancel"
+  "Cancel": "Cancel",
+  "Error:": "Error:",
+  "Please correct the errors on the page": "Please correct the errors on the page",
+  "errors.fullname.length": "errors.fullname.length",
+  "errors.email.length": "errors.email.length",
+  "errors.expiry.date": "errors.expiry.date",
+  "Cannot read property 'match' of undefined": "Cannot read property 'match' of undefined"
 }

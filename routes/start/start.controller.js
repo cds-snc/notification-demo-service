@@ -1,5 +1,19 @@
 const path = require("path");
-const { getNextRoute, getRouteByName } = require("../../utils/index");
+const nn = require("nonce-next");
+const {
+  getNextRoute,
+  getRouteByName,
+  validateRouteData
+} = require("../../utils/index");
+
+//
+const formData = {
+  fullname: "my_value",
+  email: "",
+  json: true,
+  nonce: nn.generate(60000),
+  expiry: ""
+};
 
 module.exports = function(app) {
   const name = "start";
@@ -9,7 +23,10 @@ module.exports = function(app) {
 
   // redirect from "/" → "/start"
   app.get("/", (req, res) => res.redirect(route.path));
-  app.get(route.path, (req, res) =>
-    res.render(name, { nextRoute: getNextRoute(name).path })
-  );
+  app.get(route.path, async (req, res) => {
+    console.log(
+      await validateRouteData("http://localhost:3005/personal", formData)
+    );
+    res.render(name, { nextRoute: getNextRoute(name).path });
+  });
 };

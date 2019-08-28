@@ -1,6 +1,7 @@
 const { validationResult } = require("express-validator");
 const { routes: defaultRoutes, Route } = require("../config/routes.config");
 const nn = require("nonce-next");
+const request = require("request");
 
 /*
   original format is an array of error objects: https://express-validator.github.io/docs/validation-result-api.html
@@ -97,6 +98,11 @@ const checkPublic = function(req, res, next) {
  */
 const checkErrors = template => {
   return (req, res, next) => {
+    // check to see if the requests should respond with JSON
+    if (req.body.json) {
+      return checkErrorsJSON(req, res, next);
+    }
+
     const errors = validationResult(req);
 
     // copy all posted parameters, but remove the redirect
@@ -114,6 +120,31 @@ const checkErrors = template => {
 
     return next();
   };
+};
+
+const validateRouteData = async (routePath, formData) => {
+  return new Promise((resolve, reject) => {
+    request.post(
+      { url: routePath, form: formData },
+      (err, httpResponse, body) => {
+        if (err) {
+          resolve(err.message);
+        }
+
+        resolve(body);
+      }
+    );
+  });
+};
+
+const checkErrorsJSON = (req, res, next) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.json(errorArray2ErrorObject(errors));
+  }
+
+  return next();
 };
 
 const doRedirect = (req, res, next) => {
@@ -209,6 +240,7 @@ const getRouteWithIndexByName = (name, routes = defaultRoutes) => {
 module.exports = {
   errorArray2ErrorObject,
   checkErrors,
+  checkErrorsJSON,
   checkNonce,
   hasData,
   checkPublic,
@@ -218,5 +250,6 @@ module.exports = {
   getRouteWithIndexByName,
   getRouteByName,
   getPreviousRoute,
-  getNextRoute
+  getNextRoute,
+  validateRouteData
 };
