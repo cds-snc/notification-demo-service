@@ -13,8 +13,13 @@ block content
 
     +textInput('form.fullname', null, 'form.fullname.desc')(class='w-3-4', id='fullname' name='fullname', autofocus, value=data.fullname)
 
-    +textInput('form.email', null, 'form.email.desc')(class='w-3-4', id='email' name='email', autofocus, value=data.email)
+    if useEmail
+      +textInput('form.email', null, 'form.email.desc')(class='w-3-4', id='email' name='email', autofocus, value=data.email)
 
+    if !useEmail
+      +textInput('form.phone', null, 'form.phone.desc')(class='w-3-4', id='phone' name='phone', autofocus, value=data.phone)
+    
+    
     +textInput('form.passport_expiry', null, 'form.passport_expiry.desc')(class='w-3-4', id='expiry' name='expiry', autofocus, value=data.expiry)
     
     input(name='name', type='hidden', value=name)

@@ -7,6 +7,7 @@ const routes = [
   // { name: "sample", path: "/sample" }, // remove this
   { name: "start", path: "/start" },
   { name: "login", path: "/login" },
+  { name: "email_sms", path: "/email-sms" },
   { name: "personal", path: "/personal" },
   { name: "confirmation", path: "/confirmation" }
 ];
@@ -19,6 +20,7 @@ const configRoutes = app => {
   // require("../routes/_sample_route/sample.controller")(app); // remove this
   require("../routes/start/start.controller")(app);
   require("../routes/login/login.controller")(app);
+  require("../routes/email_sms/email_sms.controller")(app);
   require("../routes/personal/personal.controller")(app);
   require("../routes/confirmation/confirmation.controller")(app);
   require("../routes/global/global.controller")(app);

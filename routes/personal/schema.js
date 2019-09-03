@@ -1,4 +1,6 @@
 const isValidDate = require("../../utils/").isValidDate;
+const isEmail = require("validator/lib/isEmail");
+const isMobilePhone = require("validator/lib/isMobilePhone").default;
 
 const Schema = {
   fullname: {
@@ -7,10 +9,28 @@ const Schema = {
       options: { min: 3, max: 200 }
     }
   },
+  phone: {
+    custom: {
+      options: (value, { req }) => {
+        if (typeof req.body.phone !== "undefined") {
+          return isMobilePhone(req.body.phone);
+        }
+
+        return true;
+      },
+      errorMessage: "phone.length"
+    }
+  },
   email: {
-    isLength: {
-      errorMessage: "errors.email.length",
-      options: { min: 3, max: 200 }
+    custom: {
+      options: (value, { req }) => {
+        if (typeof req.body.email !== "undefined") {
+          return isEmail(req.body.email);
+        }
+
+        return true;
+      },
+      errorMessage: "email.length"
     }
   },
   expiry: {

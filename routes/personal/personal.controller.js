@@ -19,9 +19,14 @@ module.exports = app => {
   addViewPath(app, path.join(__dirname, "./"));
 
   app.get(route.path, (req, res) => {
+    
+    // show either phone or email field
+    useEmail = getSessionData(req).notify_type === "Email" ? true : false;
+
     const params = {
       data: getSessionData(req),
       name,
+      useEmail,
       nonce: generateNonce()
     };
 

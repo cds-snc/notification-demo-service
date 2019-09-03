@@ -25,4 +25,6 @@ module.exports = app => {
 
     res.render(name, { data: getSessionData(req) });
   });
+
+  // add code to send the initial email here
 };

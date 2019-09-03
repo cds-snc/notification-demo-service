@@ -1,0 +1,16 @@
+mixin emailSmsRadios(key, value, question, errors = false)
+  div(class={['has-error']: errors && errors[key]})
+    fieldset.fieldset
+      legend.fieldset__legend #{__(question)}
+      .multiple-choice.multiple-choice--radios
+        if errors && errors[key] && errors[key].msg
+          +validationMessage(errors[key].msg, key)
+        .multiple-choice__item
+          input(id=`${key}Email` name=key type="radio" value="Email" checked=(value =='Email') aria-describedby=(errors ? `${key}-error` : false))
+          label(for=`${key}Email`) #{__('Email')}
+        .multiple-choice__item
+          input(id=`${key}Sms` name=key type="radio" value="Sms" checked=(value =='Sms') aria-describedby=(errors ? `${key}-error` : false))
+          label(for=`${key}Sms`) #{__('Sms')}
+          if block
+            block
+            

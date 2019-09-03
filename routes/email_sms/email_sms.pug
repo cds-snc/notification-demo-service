@@ -1,0 +1,18 @@
+extends /base
+include ./emailSMSRadios
+
+block variables
+  -var title = __('email_sms.title')
+
+block content
+
+  h1 #{title}
+
+  div
+    p #{__('email_sms.intro')}
+  form.cra-form(method='post') 
+    +emailSmsRadios('notify_type', null, 'Do you want to be notified by email in the months before your passport expires?', errors)
+
+    input(name='name', type='hidden', value=name)
+    
+    +formButtons()
