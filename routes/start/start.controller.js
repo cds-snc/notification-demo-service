@@ -1,10 +1,19 @@
-module.exports = function(app) {
-  // redirect from "/" → "/start"
-  app.get('/', (req, res) => res.redirect('/start'))
-  app.get('/start', (req, res) => res.render('start/index'))
+const path = require("path");
+const {
+  getNextRoute,
+  getRouteByName,
+  addViewPath
+} = require("../../utils/index");
 
-  // loads the site in french from the get-go
-  app.get('/commencer', (req, res) => {
-    res.redirect('/start?lang=fr')
-  })
-}
+module.exports = app => {
+  const name = "start";
+  const route = getRouteByName(name);
+  
+  addViewPath(app, path.join(__dirname, "./"));
+  
+  // redirect from "/" → "/start"
+  app.get("/", (req, res) => res.redirect(route.path));
+  app.get(route.path, async (req, res) => {
+    res.render(name, { nextRoute: getNextRoute(name).path });
+  });
+};
