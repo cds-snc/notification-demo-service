@@ -60,5 +60,9 @@
   "email.length": "email.length",
   "phone.length": "phone.length",
   "isMobilePhone is not a function": "isMobilePhone is not a function",
-  "Expected string but received a undefined.": "Expected string but received a undefined."
+  "Expected string but received a undefined.": "Expected string but received a undefined.",
+  "Notification Type": "Notification Type",
+  "confirm.message": "confirm.message",
+  "confirmation.number:": "confirmation.number:",
+  "call.passport.canada": "call.passport.canada"
 }

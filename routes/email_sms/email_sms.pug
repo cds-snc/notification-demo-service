@@ -1,5 +1,5 @@
 extends /base
-include ./emailSMSRadios
+include /_includes/radios
 
 block variables
   -var title = __('email_sms.title')
@@ -12,6 +12,6 @@ block content
   div
     p #{__('email_sms.intro')}
   form.cra-form(method='post') 
-    +emailSmsRadios('notify_type', null, question, null)
+    +radioButtons('notify_type', {1:'Email',2:'Sms'}, data.notify_type, 'Notification Type', errors)
     input(name='name', type='hidden', value=name)
     +formButtons()

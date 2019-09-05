@@ -23,6 +23,29 @@ module.exports = app => {
       return res.redirect(getRouteByName("personal").path);
     }
 
+    //
+    // send email or sms here
+    /*
+    const templateId = process.env.CONFIRM_TEMPLATE_ID;
+    const session = req.session;
+
+    const options = {
+      personalisation: {
+        expiryDate: session.expiry,
+        confirmationNumber: session.confirmCode.code
+      },
+      reference: "Confirm"
+    };
+
+    await sendNotification({
+      email: data.email,
+      templateId: templateId,
+      options
+    });
+    */
+
+    //
+
     res.render(name, { data: getSessionData(req) });
   });
 
