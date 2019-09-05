@@ -5,7 +5,8 @@ const {
   getRouteByName,
   addViewPath,
   setFlashMessageContent,
-  sendNotification
+  sendNotification,
+  sendSMSNotification
 } = require("../../utils/index");
 
 module.exports = async app => {
@@ -23,7 +24,7 @@ module.exports = async app => {
       setFlashMessageContent(req, result.errors);
       return res.redirect(getRouteByName("personal").path);
     }
-    
+
     // send email or sms here
     const session = getSessionData(req);
     let templateId = process.env.CONFIRM_TEMPLATE_ID_EMAIL;
@@ -50,13 +51,20 @@ module.exports = async app => {
       reference: "Confirm"
     };
 
-    await sendNotification({
-      email: session.email,
-      templateId: templateId,
-      options
-    });
-
-    //
+    // send SMS or email
+    if (session.notify_type === "Sms") {
+      sendSMSNotification({
+        phone: session.phone,
+        templateId: templateId,
+        options
+      });
+    } else {
+      await sendNotification({
+        email: session.email,
+        templateId: templateId,
+        options
+      });
+    }
 
     res.render(name, { data: session });
   });
