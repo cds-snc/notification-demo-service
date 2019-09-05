@@ -1,0 +1,17 @@
+extends /base
+include /_includes/radios
+
+block variables
+  -var title = __('email_sms.title')
+  -var question = __('notify.type')
+
+block content
+
+  h1 #{title}
+
+  div
+    p #{__('email_sms.intro')}
+  form.cra-form(method='post') 
+    +radioButtons('notify_type', {1:'Email',2:'Sms'}, data.notify_type, 'Notification Type', errors)
+    input(name='name', type='hidden', value=name)
+    +formButtons()

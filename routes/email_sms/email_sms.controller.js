@@ -11,7 +11,7 @@ const {
 const { Schema } = require("./schema.js");
 
 module.exports = app => {
-  const name = "login";
+  const name = "email_sms";
   const route = getRouteByName(name);
 
   addViewPath(app, path.join(__dirname, "./"));

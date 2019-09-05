@@ -1,0 +1,23 @@
+extends /base
+
+block variables
+  -var title = __('login.title')
+
+block content
+
+  h1 #{title}
+
+  div
+    p #{__('login.intro')}
+
+  div
+    form.cra-form(method='post')
+      +textInput('login.passport.number', null, 'login.passport.example')(class='w-3-4', id='code' name='code', autofocus, value=data.code)
+
+      div
+        details.
+          <summary><span>#{__('login.passport.help')}</span></summary>
+          <p>#{__('login.passport.note')}</p>
+
+      input(name='name', type='hidden', value=name)
+      +formButtons()

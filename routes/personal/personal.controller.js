@@ -1,60 +1,49 @@
+const path = require("path");
 const { checkSchema } = require("express-validator");
 const {
-  validateRedirect,
+  doRedirect,
   checkErrors,
-  sendNotification
+  checkNonce,
+  generateNonce,
+  getRouteByName,
+  addViewPath,
+  getSessionData,
+  getFlashMessage
 } = require("./../../utils");
+const { Schema } = require("./schema.js");
 
-const { nameSchema } = require("./../../formSchemas.js");
+module.exports = app => {
+  const name = "personal";
+  const route = getRouteByName(name);
 
-module.exports = function(app) {
-  app.get("/personal/identity", (req, res) => {
-    res.render("personal/identity", { data: req.session });
+  addViewPath(app, path.join(__dirname, "./"));
+
+  app.get(route.path, (req, res) => {
+    
+    // show either phone or email field
+    useEmail = getSessionData(req).notify_type === "Email" ? true : false;
+
+    const params = {
+      data: getSessionData(req),
+      name,
+      useEmail,
+      nonce: generateNonce()
+    };
+
+    const errors = getFlashMessage(req);
+
+    if (errors) {
+      params.errors = errors;
+    }
+
+    res.render(name, params);
   });
+
   app.post(
-    "/personal/identity",
-    validateRedirect,
-    checkSchema(nameSchema),
-    (req, res, next) => {
-      // check for "no" i.e. don't send me notifications
-      // && just send them to the offramp
-      const confirm = req.body.confirm;
-
-      if (confirm !== "Yes") {
-        return res.redirect("/offramp/identity");
-      }
-
-      next();
-    },
-    checkErrors("personal/identity"),
-    postName
+    route.path,
+    checkNonce,
+    checkSchema(Schema),
+    checkErrors(name),
+    doRedirect
   );
-};
-
-const postName = async (req, res, next) => {
-  const confirm = req.body.confirm;
-
-  if (confirm !== "Yes") {
-    return res.redirect("/offramp/identity");
-  }
-
-  const data = req.body;
-  const templateId = process.env.CONFIRM_TEMPLATE_ID;
-  const session = req.session;
-
-  const options = {
-    personalisation: {
-      expiryDate: session.expiry,
-      confirmationNumber: session.confirmCode.code
-    },
-    reference: "Confirm"
-  };
-
-  await sendNotification({
-    email: data.email,
-    templateId: templateId,
-    options
-  });
-
-  return res.redirect(req.body.redirect);
 };

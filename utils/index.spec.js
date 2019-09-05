@@ -1,29 +1,20 @@
-const { hasData, isValidDate } = require("./index");
-const API = require("./../api");
+//@todo break the tests up
 
-describe("Test hasData function", () => {
-  const user = API.getUser("A5G98S4K1");
+const {
+  isValidDate,
+  getRouteWithIndexByName,
+  getRouteByName,
+  getPreviousRoute,
+  getNextRoute,
+  isEmptyObject,
+  errorArray2ErrorObject
+} = require("./index");
 
-  test("returns false for non-object", () => {
-    expect(hasData(user, "login.code")).toBe(true);
-  });
-
-  test("returns false for non-object", () => {
-    expect(hasData("this is not an object", "confirmCode.code")).toBe(false);
-  });
-
-  test("returns false for null object", () => {
-    expect(hasData(null, "confirmCode.code")).toBe(false);
-  });
-
-  test("returns false for empty object", () => {
-    expect(hasData({}, "confirmCode.code")).toBe(false);
-  });
-
-  test("returns false for empty string", () => {
-    expect(hasData({ obj: { string: "" } }, "obj.string")).toBe(false);
-  });
-});
+const testRoutes = [
+  { name: "start", path: "/start" },
+  { name: "personal", path: "/personal" },
+  { name: "confirmation", path: "/confirmation" }
+];
 
 describe("Has valid date", () => {
   test("returns true for valid date", () => {
@@ -40,5 +31,49 @@ describe("Has valid date", () => {
 
   test("returns false for date with wrong format", () => {
     expect(isValidDate("2019-01-01")).toBe(false);
+  });
+});
+
+describe("Routes", () => {
+  test("finds route index by name", () => {
+    const obj = getRouteWithIndexByName("personal", testRoutes);
+    expect(obj.index).toEqual(1);
+  });
+
+  test("finds route path by name", () => {
+    const obj = getRouteByName("personal", testRoutes);
+    expect(obj.path).toEqual("/personal");
+  });
+
+  test("return false for previous route that doesn't exist", () => {
+    const obj = getPreviousRoute("start", testRoutes);
+    expect(obj.path).toEqual(false);
+  });
+
+  test("finds previous route path by name", () => {
+    const obj = getPreviousRoute("personal", testRoutes);
+    expect(obj.path).toEqual("/start");
+  });
+
+  test("return false for next route that doesn't exist", () => {
+    const obj = getNextRoute("confirmation", testRoutes);
+    expect(obj.path).toEqual(false);
+  });
+
+  test("finds next route path by name", () => {
+    const obj = getNextRoute("personal", testRoutes);
+    expect(obj.path).toEqual("/confirmation");
+  });
+});
+
+describe("Is empty Object", () => {
+  test("returns true is the object is empty", () => {
+    const result = isEmptyObject({});
+    expect(result).toEqual(true);
+  });
+
+  test("returns false if the object has values", () => {
+    const result = isEmptyObject({ name: "your name" });
+    expect(result).toEqual(false);
   });
 });

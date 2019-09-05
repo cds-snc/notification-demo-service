@@ -1,0 +1,15 @@
+extends /base
+
+block variables
+  -var title = __('confirmation.title')
+
+block content
+
+  h1 #{title}
+
+  div
+    p #{__('confirmation.intro')} 
+    p #{__('confirm.message')}
+    p #{__('confirmation.number:')}
+    p #{data.code}
+    p #{__('call.passport.canada')}
