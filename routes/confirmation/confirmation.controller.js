@@ -23,8 +23,7 @@ module.exports = async app => {
       setFlashMessageContent(req, result.errors);
       return res.redirect(getRouteByName("personal").path);
     }
-
-    //
+    
     // send email or sms here
     const session = getSessionData(req);
     let templateId = process.env.CONFIRM_TEMPLATE_ID_EMAIL;
