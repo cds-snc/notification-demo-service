@@ -4,10 +4,11 @@ const {
   getSessionData,
   getRouteByName,
   addViewPath,
-  setFlashMessageContent
+  setFlashMessageContent,
+  sendNotification
 } = require("../../utils/index");
 
-module.exports = app => {
+module.exports = async app => {
   const name = "confirmation";
   const route = getRouteByName(name);
 
@@ -25,28 +26,40 @@ module.exports = app => {
 
     //
     // send email or sms here
+    const session = getSessionData(req);
+    let templateId = process.env.CONFIRM_TEMPLATE_ID_EMAIL;
+    if (session.notify_type === "Sms") {
+      templateId = process.env.CONFIRM_TEMPLATE_ID_SMS;
+    }
+
     /*
-    const templateId = process.env.CONFIRM_TEMPLATE_ID;
-    const session = req.session;
+      name: 'personal',
+      code: 'A5G98S4K1',
+      notify_type: 'Email',
+      fullname: 'tim anney',
+      email: 'email@email.com',
+      expiry: '2019-01',
+      nonce: '156768980827100',
+      json: true 
+    */
 
     const options = {
       personalisation: {
         expiryDate: session.expiry,
-        confirmationNumber: session.confirmCode.code
+        confirmationNumber: session.code
       },
       reference: "Confirm"
     };
 
     await sendNotification({
-      email: data.email,
+      email: session.email,
       templateId: templateId,
       options
     });
-    */
 
     //
 
-    res.render(name, { data: getSessionData(req) });
+    res.render(name, { data: session });
   });
 
   // add code to send the initial email here
